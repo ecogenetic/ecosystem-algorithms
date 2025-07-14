@@ -425,6 +425,17 @@ of 1234567.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="runtime.apis.predictor_engine.learning">
+<span class="sig-prename descclassname"><span class="pre">runtime.apis.predictor_engine.</span></span><span class="sig-name descname"><span class="pre">learning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runtime.apis.predictor_engine.learning" title="Link to this definition">#</a></dt>
+<dd><p>Manually trigger the learning for a Dynamic Interaction deployment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>auth</strong> – Token for accessing the ecosystem-runtime. Created using jwt_access.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="runtime.apis.predictor_engine.model_detail">
 <span class="sig-prename descclassname"><span class="pre">runtime.apis.predictor_engine.</span></span><span class="sig-name descname"><span class="pre">model_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runtime.apis.predictor_engine.model_detail" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
@@ -461,7 +472,7 @@ of 1234567.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="runtime.apis.predictor_engine.refresh">
-<span class="sig-prename descclassname"><span class="pre">runtime.apis.predictor_engine.</span></span><span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runtime.apis.predictor_engine.refresh" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">runtime.apis.predictor_engine.</span></span><span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runtime.apis.predictor_engine.refresh" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -674,6 +685,11 @@ of 1234567.</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="runtime.apis.worker_utilities.update_cassandra_config">
+<span class="sig-prename descclassname"><span class="pre">runtime.apis.worker_utilities.</span></span><span class="sig-name descname"><span class="pre">update_cassandra_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runtime.apis.worker_utilities.update_cassandra_config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="runtime.apis.worker_utilities.update_properties">
 <span class="sig-prename descclassname"><span class="pre">runtime.apis.worker_utilities.</span></span><span class="sig-name descname"><span class="pre">update_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runtime.apis.worker_utilities.update_properties" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
@@ -775,6 +791,7 @@ of 1234567.</p>
 <li><a class="reference internal" href="#runtime.apis.predictor_engine.get_personality_recommender"><code class="docutils literal notranslate"><span class="pre">get_personality_recommender()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.predictor_engine.get_spending_personality"><code class="docutils literal notranslate"><span class="pre">get_spending_personality()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.predictor_engine.invocations"><code class="docutils literal notranslate"><span class="pre">invocations()</span></code></a></li>
+<li><a class="reference internal" href="#runtime.apis.predictor_engine.learning"><code class="docutils literal notranslate"><span class="pre">learning()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.predictor_engine.model_detail"><code class="docutils literal notranslate"><span class="pre">model_detail()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.predictor_engine.predictor_response_preload"><code class="docutils literal notranslate"><span class="pre">predictor_response_preload()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.predictor_engine.predictor_response_preload_kafka"><code class="docutils literal notranslate"><span class="pre">predictor_response_preload_kafka()</span></code></a></li>
@@ -832,6 +849,7 @@ of 1234567.</p>
 <li><a class="reference internal" href="#runtime.apis.worker_utilities.send_get"><code class="docutils literal notranslate"><span class="pre">send_get()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.worker_utilities.sql_cassandra"><code class="docutils literal notranslate"><span class="pre">sql_cassandra()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.worker_utilities.test_kafka_kerberos"><code class="docutils literal notranslate"><span class="pre">test_kafka_kerberos()</span></code></a></li>
+<li><a class="reference internal" href="#runtime.apis.worker_utilities.update_cassandra_config"><code class="docutils literal notranslate"><span class="pre">update_cassandra_config()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.worker_utilities.update_properties"><code class="docutils literal notranslate"><span class="pre">update_properties()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.worker_utilities.update_properties_key"><code class="docutils literal notranslate"><span class="pre">update_properties_key()</span></code></a></li>
 <li><a class="reference internal" href="#runtime.apis.worker_utilities.upload_file"><code class="docutils literal notranslate"><span class="pre">upload_file()</span></code></a></li>
