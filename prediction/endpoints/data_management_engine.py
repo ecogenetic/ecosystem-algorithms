@@ -181,7 +181,7 @@ EXECUTE_MONGO_DB_SCRIPT = {
 }
 
 
-# # Data Management Engine: Cassandra
+# Data Management Engine: Cassandra
 GET_CASSANDRA_SQL = {
 	"type": "get",
 	"endpoint": "/getCassandraSql",
@@ -208,4 +208,12 @@ GET_PRESTO_SQL = {
 	"endpoint": "/getPrestoSQL",
 	"call_message": "{type} {endpoint}",
 	"error_message": "{type} {endpoint} {response_code}"	
+}
+
+# Data Management Engine: HIVE
+GET_HIVE_TO_MONGODB = {
+	"type": "get",
+	"endpoint": "/getHiveToMongoDB",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
 }

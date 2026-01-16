@@ -1,5 +1,6 @@
 from runtime.endpoints import predictor_engine as endpoints
 from runtime import request_utils
+from json import dumps
 
 
 def get_spending_personality(auth, campaign, channel, customer, headers, params, subcampaign, userid, info=False):
@@ -197,10 +198,24 @@ def predictor_response_preload_kafka(auth, detail, value, info=False):
     meta = resp.json()
     return meta
 
-def refresh(auth, headers, info=False):
+def refresh(auth, headers="", info=False):
 # Refresh product matrix and master
 #  headers: Added headers. ()
     ep = endpoints.REFRESH
+    param_dict = {
+        "headers": headers
+    }
+    resp = request_utils.create(auth, ep, params=param_dict, info=info)
+    meta = resp.json()
+    return meta
+
+def learning(auth, headers="", info=False):
+    """
+    Manually trigger the learning for a Dynamic Interaction deployment
+
+    :param auth: Token for accessing the ecosystem-runtime. Created using jwt_access.
+    """
+    ep = endpoints.LEARNING
     param_dict = {
         "headers": headers
     }
@@ -238,6 +253,7 @@ def invocations(auth, json, info=False):
 
     Call the invocations endpoint for a deployment with the deployment_id of "demo_deployment" and the customer lookup
     of 1234567.
+
     .. code-block:: python
 
         offer_response = o.invocations(
@@ -252,6 +268,7 @@ def invocations(auth, json, info=False):
                                         "params": "{}"
                                         }
                                       )
+
     """
     ep = endpoints.INVOCATIONS
     resp = request_utils.create(auth, ep, json=json, info=info)
@@ -273,5 +290,85 @@ def process_batch(auth, json, info=False):
 def generate_key(auth, info=False):
     ep = endpoints.GENERATE_KEY
     resp = request_utils.create(auth, ep, info=info)
+    meta = resp.json()
+    return meta
+
+def generate_class(auth, code, package_name=None, class_name=None, output_dir=None, info=False):
+    """
+    Generates a java class file in the runtime from the code in the code parameter.
+
+    :param auth: Token for accessing the ecosystem-runtime. Created using jwt_access.
+    :param code: The code to be converted to a java class.
+    :param package_name: The package name to be used for the java class.
+    :param class_name: The class name to be used for the java class.
+    :param output_dir: The directory to which the java class will be written.
+
+    :return: A dictionary containing the details of the generated java class.
+
+    EXAMPLES:
+
+    Getting the post scoring code for a deployment, compiling the java code and pushing the resulting deployment to a runtime endpoint.
+
+    .. code-block:: python
+
+        # Connect to the runtime and server
+        auth = jwt_access.Authenticate(server_path, server_user, ecosystem_password)
+        auth_runtime = access.Authenticate(runtime_path)
+        # Specify the deployment
+        deployment_id = "offer_recommend_dynamic"
+        version = "001"
+        project_id = "Community Edition Recommender"
+
+        # Get the deployment step and extract the post scoring logic
+        deployment_step = dm.get_deployment_step(auth, project_id, deployment_id, version)
+        post_score_code = deployment_step["plugins"]["post_score_class_code"]
+        # Compile the post scoring logic file and add the new file name to the deployment step
+        compile_results = o.generate_class(auth_runtime, post_score_code)
+        deployment_step["plugins"]["post_score_class_text"] = compile_results["javaFileName"]
+        # Save the new deployment step
+        dm.update_deployment_step(auth, project_id, deployment_id, version, deployment_step)
+
+        #Push deployment and produce properties file
+        push_result = ge.process_push(auth,deployment_step)
+        if "ErrorMessage" in push_result:
+            print(push_result["ErrorMessage"])
+        else:
+            print(push_result["properties"])
+
+    An example of the response returned as a result of the class generation.
+
+    .. code-block:: json
+
+        {
+          "packagePath": "com/ecosystem/plugin/customer",
+          "outputDir": "/app",
+          "fullyQualifiedClassName": "com.ecosystem.plugin.customer.PlatformDynamicEngagement_39dhk",
+          "methods": [
+            {
+              "name": "getPostPredict",
+              "returnType": "void"
+            },
+            {
+              "name": "getPostPredict",
+              "returnType": "class org.json.JSONObject"
+            }
+          ],
+          "javaFileName": "PlatformDynamicEngagement_39dhk.java",
+          "className": "PlatformDynamicEngagement",
+          "classNameUnique": "PlatformDynamicEngagement_39dhk"
+        }
+
+    """
+    code_generation_string = code
+    if package_name is not None:
+        params = {
+            "package_name": package_name
+            ,"class_name": class_name
+            ,"output_dir": output_dir
+        }
+        code_generation_string = dumps(params)+" CODE: "+code
+
+    ep = endpoints.GENERATE_CLASS
+    resp = request_utils.create(auth, ep, data=code_generation_string, info=info)
     meta = resp.json()
     return meta

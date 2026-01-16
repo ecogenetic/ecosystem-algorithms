@@ -200,3 +200,31 @@ PREDICTION_ENRICH_FAST_POST = {
 	"call_message": "{type} {endpoint}",
 	"error_message": "{type} {endpoint} {response_code}"	
 }
+
+POST_ECOSYSTEM_REWARDS_EXPLORATION = {
+	"type": "post",
+	"endpoint": "/postEcosystemRewardsExploration",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}
+
+POST_ECOSYSTEM_REWARDS_EXPLORATION_APPROX = {
+	"type": "post",
+	"endpoint": "/postEcosystemRewardsExplorationApprox",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}
+
+POST_ECOSYSTEM_REWARDS_EXPLORE_APPROX_CONTEXT = {
+	"type": "post",
+	"endpoint": "/postEcosystemRewardsExploreApproxContext",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}
+
+POST_ECOSYSTEM_REWARDS_BETA_DISTRIBUTION_BOX_PLOTS = {
+	"type": "post",
+	"endpoint": "/postEcosystemRewardsBetaDistributionBoxPlots",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}

@@ -58,6 +58,12 @@ REFRESH = {
 	"call_message": "{type} {endpoint}",
 	"error_message": "{type} {endpoint} {response_code}"
 }
+LEARNING = {
+	"type": "get",
+	"endpoint": "/learning",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}
 RUN_MODEL_MOJO = {
 	"type": "get",
 	"endpoint": "/runModelMojo",
@@ -87,4 +93,10 @@ GENERATE_KEY = {
 	"endpoint": "/generateKey",
 	"call_message": "{type} {endpoint}",
 	"error_message": "{type} {endpoint} {response_code}"	
+}
+GENERATE_CLASS = {
+	"type": "post",
+	"endpoint": "/generateClass",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
 }

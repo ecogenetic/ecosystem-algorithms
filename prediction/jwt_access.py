@@ -68,7 +68,6 @@ class Authenticate:
 			print(r.text)
 			print(r.raw)
 			raise ValueError("Error retrieving log in token.")
-		print("Login Successful.")
 		return token
 
 	def __format_time(self, t):

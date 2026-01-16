@@ -28,3 +28,9 @@ def no_auth_ping(server, endpoint, headers, message, info=False):
     resp = requests.get(url_endpoint, headers=headers, params=param_dict)
     meta = resp.json()
     return meta
+
+def config(auth, info=False):
+    ep = endpoints.CONFIG
+    resp = request_utils.create(auth, ep, info=info)
+    result = resp.json()
+    return result

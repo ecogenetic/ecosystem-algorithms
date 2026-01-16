@@ -98,6 +98,13 @@ UPDATE_PROPERTIES = {
 	"error_message": "{type} {endpoint} {response_code}"
 }
 
+UPDATE_CASSANDRA_CONFIG = {
+	"type": "post",
+	"endpoint": "/updateCassandraConfig",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}
+
 UPDATE_PROPERTIES_KEY = {
 	"type": "get",
 	"endpoint": "/updatePropertiesKey",

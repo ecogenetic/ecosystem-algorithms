@@ -171,6 +171,11 @@ def update_properties(auth, properties, info=False):
     resp = request_utils.create_only_auth(auth, ep, data=properties, info=info)
     return resp
 
+def update_cassandra_config(auth, config, info=False):
+    ep = endpoints.UPDATE_CASSANDRA_CONFIG
+    resp = request_utils.create_only_auth(auth, ep, data=config, info=info)
+    return resp
+
 def update_properties_key(auth, key, value, info=False):
 	ep = endpoints.UPDATE_PROPERTIES_KEY
 	param_dict = {

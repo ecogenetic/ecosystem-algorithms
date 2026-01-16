@@ -7,3 +7,7 @@ tmp/*
 .idea/*
 
 venv/
+
+dist/
+
+ecosystem_notebooks.egg-info/

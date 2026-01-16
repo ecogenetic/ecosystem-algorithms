@@ -3,7 +3,7 @@ from pathlib import Path
 
 setup(
     name='ecosystem-notebooks',
-    version='0.1.25',
+    version='0.1.50',
     description='Ecosystem Notebooks is a wrapper for the Ecosystem API servers.',
     long_description=Path("README.rst").read_text(encoding="utf-8"),
     url='https://github.com/ecosystemai/ecosystem-notebooks',
@@ -72,7 +72,7 @@ setup(
         'License :: OSI Approved :: MIT License',  
         'Operating System :: POSIX :: Linux',        
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.12',
         'Framework :: Jupyter :: JupyterLab'
     ],
 )

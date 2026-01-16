@@ -10,3 +10,9 @@ PING = {
 	"call_message": "{type} {endpoint}",
 	"error_message": "{type} {endpoint} {response_code}"
 }
+CONFIG = {
+	"type": "get",
+	"endpoint": "/config",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}

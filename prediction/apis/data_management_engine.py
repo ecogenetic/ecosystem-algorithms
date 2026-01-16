@@ -1,5 +1,7 @@
 from prediction.endpoints import data_management_engine as endpoints
 from prediction import request_utils
+from json import dumps
+from urllib.parse import quote
 
 # Data Management Engine
 def get_document_db_aggregate2(auth, database, collection, aggregate, field, limit, projections, skip, sort, info=False):
@@ -148,26 +150,6 @@ def export_documents(auth, filename, filetype, database, collection, field, sort
 	meta = resp.json()
 	return meta
 
-def get_cassandra_to_mongo(auth, database, collection, sql, info=False):
-	"""
-	Execute a Cassandra SQL query and ingest the data to a MongoDB collection. The ecosystem server should be configured
-	to connect to the target Cassandra servers.
-
-	:param auth: Token for accessing the ecosystem-server. Created using jwt_access.
-	:param database: Database to ingest the data to
-	:param collection: Collection to ingest the data to
-	:param sql: Cassandra SQL query to execute
-	"""
-	ep = endpoints.GET_CASSANDRA_TO_MONGODB
-	param_dict = {
-		"database": database,
-		"collection": collection,
-		"sql": sql
-	}
-	resp = request_utils.create(auth, ep, params=param_dict, info=info)
-	result = resp.json()
-	return result
-
 def get_document_collection_indexes(auth, database, collection, info=False):
 	ep = endpoints.GET_MONGO_COLLECTION_INDEXES
 	param_dict = {
@@ -307,6 +289,14 @@ def create_document_collection_index(auth, database, collection, index, info=Fal
 	return result
 
 def post_mongo_db_aggregate_pipeline(auth, json, info=False):
+	if "pipeline" not in json:
+		raise ValueError("pipeline key is missing from the json input structure")
+	try:
+		pipeline = json["pipeline"]
+		pipeline = quote(dumps(pipeline,ensure_ascii=False))
+		json["pipeline"] = pipeline
+	except:
+		print("WARNING: Unexpected error during unicode processing of pipeline, proceeding with input pipeline")
 	ep = endpoints.POST_MONGO_DB_AGGREGATE_PIPELINE
 	resp = request_utils.create(auth, ep, json=json, info=info)
 	result = resp.json()
@@ -362,6 +352,26 @@ def get_cassandra_sql(auth, sql, info=False):
 	result = resp.json()
 	return result
 
+def get_cassandra_to_mongo(auth, database, collection, sql, info=False):
+	"""
+	Execute a Cassandra SQL query and ingest the data to a MongoDB collection. The ecosystem server should be configured
+	to connect to the target Cassandra servers.
+
+	:param auth: Token for accessing the ecosystem-server. Created using jwt_access.
+	:param database: Database to ingest the data to
+	:param collection: Collection to ingest the data to
+	:param sql: Cassandra SQL query to execute
+	"""
+	ep = endpoints.GET_CASSANDRA_TO_MONGODB
+	param_dict = {
+		"database": database,
+		"collection": collection,
+		"sql": sql
+	}
+	resp = request_utils.create(auth, ep, params=param_dict, info=info)
+	result = resp.json()
+	return result
+
 # Data Management Engine: Presto
 def create_presto_sql(auth, connection, sql, info=False):
 	ep = endpoints.CREATE_PRESTO_SQL
@@ -378,6 +388,28 @@ def get_presto_sql(auth, connection, sql, info=False):
 	param_dict = {
 		"connection": connection,
 		"sql": sql
+	}
+	resp = request_utils.create(auth, ep, params=param_dict, info=info)
+	result = resp.json()
+	return result
+
+# Data Management Engine: Hive
+def get_hive_to_mongo(auth, database, collection, sql, connection_string, info=False):
+	"""
+	Execute a Hive SQL query and ingest the data to a MongoDB collection.
+
+	:param auth: Token for accessing the ecosystem-server. Created using jwt_access.
+	:param database: Database to ingest the data to
+	:param collection: Collection to ingest the data to
+	:param sql: Hive SQL query to execute
+	:param connection_string: Connection string to connect to the target Hive server
+	"""
+	ep = endpoints.GET_HIVE_TO_MONGODB
+	param_dict = {
+		"database": database,
+		"collection": collection,
+		"sql": sql,
+        "connection_string": connection_string
 	}
 	resp = request_utils.create(auth, ep, params=param_dict, info=info)
 	result = resp.json()

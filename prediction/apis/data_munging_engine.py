@@ -410,9 +410,197 @@ def process_range(auth, db, collection, find, attribute, new_attribute, rules, i
 	meta = resp.json()
 	return meta
 
-
 def prediction_enrich_fast_post(auth, json, info=False):
 	ep = endpoints.PREDICTION_ENRICH_FAST_POST
+	resp = request_utils.create(auth, ep, json=json, info=info)
+	result = resp.json()
+	return result
+
+
+def ecosystem_rewards_beta_box_plots(auth,options_store_collection,options_store_database,contextual_variable_one="",contextual_variable_two="",outlier_threshold=0.01,show_low_data=True, info=False):
+	"""
+	Produce box and whisker plot parameters for Beta distributions in the Ecosystem Rewards algorithm
+
+	:param auth: Token for accessing the ecosystem-server. Created using the jwt_access package.
+	:param options_store_collection: The MongoDB collection containing the Options Store
+	:param options_store_database: The MongoDB database containing the Options Store
+	:param contextual_variable_one: The MongoDB collection containing the database
+	:param contextual_variable_one: The value of contextual variable one for which the distributions should be shown. An empty string will not apply the filter
+	:param contextual_variable_two: The value of contextual variable two for which the distributions should be shown. An empty string will not apply the filter
+	:param outlier_threshold: The threshold for outliers, this will be used to determine the min and max values for the box and whisker plot. max will be the value of the CDF at 1-outlier_threshold and min will be the value of the CDF at outlier_threshold
+	:param show_low_data: If False, plot parameters will not be produced for distributions without both contacts and responses
+
+	:return: A list of dictionaries where each dictionary contains the box and whisker plot parameters for an option.
+	"""
+	show_low_data_string = "true"
+	if not show_low_data:
+		show_low_data_string = "false"
+
+	ep = endpoints.POST_ECOSYSTEM_REWARDS_BETA_DISTRIBUTION_BOX_PLOTS
+	json = {
+		"options_store_collection": options_store_collection,
+		"options_store_database": options_store_database,
+		"contextual_variable_one": contextual_variable_one,
+		"contextual_variable_two": contextual_variable_two,
+		"outlier_threshold": outlier_threshold,
+		"show_low_data": show_low_data_string
+	}
+	resp = request_utils.create(auth, ep, json=json, info=info)
+
+	try:
+		result = resp.json()
+	except:
+		print(f"Error parsing JSON response from server: {resp}")
+		raise
+
+	try:
+		# Convert formatting to be compatible with matplotlib
+		boxes = []
+		for box_iter in result:
+			box_addition = {
+				'label': box_iter["category"],
+				'whislo': box_iter["min"],
+				'q1': box_iter["q1"],
+				'med': box_iter["median"],
+				'q3': box_iter["q3"],
+				'whishi': box_iter["max"],
+				'fliers': []
+			}
+			boxes.append(box_addition)
+	except:
+		print(f"Error converting to matplotlib compatible formatting: {result}")
+		raise
+
+	return boxes
+
+
+def ecosystem_rewards_explore(auth,start_time,end_time,options_store_collection,options_store_database,deployment_id,logging_collection="ecosystemruntime",logging_database="logging",sample_size=0,check_indexes=False, info=False):
+	"""
+	Estimate the amount of exploration being performed by the Ecosystem Rewards algorithm by determining when the most popular offer in a contextual variable segment is not being recommended
+
+	:param auth: Token for accessing the ecosystem-server. Created using the jwt_access package.
+	:param start_time: The start time for the logging data to be used to estimate the rate of exploration
+	:param end_time: The end time for the logging data to be used to estimate the rate of exploration
+	:param options_store_collection: The MongoDB collection containing the Options Store
+	:param options_store_database: The MongoDB database containing the Options Store
+	:param deployment_id: The name of the deployment_id for which the rate of exploration should be quantified
+	:param logging_collection: The MongoDB collection containing the contacts logging data
+	:param logging_database: The MongoDB database containing the contacts logging data
+	:param sample_size: The number of samples to be used to estimate the rate of exploration. A value of 0 will use all data
+	:param check_indexes: If True, the function will check if the indexes optimal indexes are present on the logging collection and will create them if necessary
+
+	:return: A dictionary containing the number of offers considered, the number of offers marked as exploration and the exploration rate.
+	"""
+	check_indexes_string = "true"
+	if not check_indexes:
+		check_indexes_string = "false"
+
+	ep = endpoints.POST_ECOSYSTEM_REWARDS_EXPLORATION
+	json = {
+		"start_time": start_time,
+		"end_time": end_time,
+		"options_store_collection": options_store_collection,
+		"options_store_database": options_store_database,
+		"predictor": deployment_id,
+		"logging_collection": logging_collection,
+		"logging_database": logging_database,
+		"sample_size": str(sample_size),
+		"check_indexes": check_indexes_string
+	}
+	resp = request_utils.create(auth, ep, json=json, info=info)
+	result = resp.json()
+	return result
+
+
+def ecosystem_rewards_explore_approx(auth,start_time,end_time,options_store_collection,options_store_database,deployment_id,logging_collection="ecosystemruntime",logging_database="logging",sample_size=0,threshold=0,score_filter=None,check_indexes=False, info=False):
+	"""
+	Estimate the amount of exploration being performed by the Ecosystem Rewards algorithm by calculating that a given score for an option would be considered exploration given the Beta distributions of the other options with a higher average propensity
+
+	:param auth: Token for accessing the ecosystem-server. Created using the jwt_access package.
+	:param start_time: The start time for the logging data to be used to estimate the rate of exploration
+	:param end_time: The end time for the logging data to be used to estimate the rate of exploration
+	:param options_store_collection: The MongoDB collection containing the Options Store
+	:param options_store_database: The MongoDB database containing the Options Store
+	:param deployment_id: The name of the deployment_id for which the rate of exploration should be quantified
+	:param logging_collection: The MongoDB collection containing the contacts logging data
+	:param logging_database: The MongoDB database containing the contacts logging data
+	:param sample_size: The number of samples to be used to estimate the rate of exploration. A value of 0 will use all data
+	:param threshold: The value added to an Options propensity when filtering for other options with a higher propensity
+	:param score_filter: Specify a score value to be excluded from the analysis, for example if offers are manually added in the post scoring logic they can be given a score of 1 and then excluded using this parameter
+	:param check_indexes: If True, the function will check if the indexes optimal indexes are present on the logging collection and will create them if necessary
+
+	:return: A dictionary containing the the exploration rate.
+	"""
+	check_indexes_string = "true"
+	if not check_indexes:
+		check_indexes_string = "false"
+
+	score_filter_string = "false"
+	if score_filter is not None:
+		score_filter_string = str(score_filter)
+
+	ep = endpoints.POST_ECOSYSTEM_REWARDS_EXPLORATION_APPROX
+	json = {
+		"start_time": start_time,
+		"end_time": end_time,
+		"options_store_collection": options_store_collection,
+		"options_store_database": options_store_database,
+		"predictor": deployment_id,
+		"logging_collection": logging_collection,
+		"logging_database": logging_database,
+		"sample_size": str(sample_size),
+		"threshold": str(threshold),
+		"score_filter": score_filter_string,
+		"check_indexes": check_indexes_string
+	}
+	resp = request_utils.create(auth, ep, json=json, info=info)
+	result = resp.json()
+	return result
+
+
+def ecosystem_rewards_explore_approx_context(auth, start_time, end_time, options_store_collection, options_store_database,
+									 deployment_id, logging_collection="ecosystemruntime", logging_database="logging",
+									 sample_size=0, threshold=0, score_filter=None, check_indexes=False, info=False):
+	"""
+	Estimate the amount of exploration being performed by the Ecosystem Rewards algorithm by calculating that a given score for an option would be considered exploration given the Beta distributions of the other options with a higher average propensity. The results are split by the contextual Variable values in the Dynamic Interaction configuration.
+
+	:param auth: Token for accessing the ecosystem-server. Created using the jwt_access package.
+	:param start_time: The start time for the logging data to be used to estimate the rate of exploration
+	:param end_time: The end time for the logging data to be used to estimate the rate of exploration
+	:param options_store_collection: The MongoDB collection containing the Options Store
+	:param options_store_database: The MongoDB database containing the Options Store
+	:param deployment_id: The name of the deployment_id for which the rate of exploration should be quantified
+	:param logging_collection: The MongoDB collection containing the contacts logging data
+	:param logging_database: The MongoDB database containing the contacts logging data
+	:param sample_size: The number of samples to be used to estimate the rate of exploration. A value of 0 will use all data
+	:param threshold: The value added to an Options propensity when filtering for other options with a higher propensity
+	:param score_filter: Specify a score value to be excluded from the analysis, for example if offers are manually added in the post scoring logic they can be given a score of 1 and then excluded using this parameter
+	:param check_indexes: If True, the function will check if the indexes optimal indexes are present on the logging collection and will create them if necessary
+
+	:return: A list of dictionaries containing the number of offers considered, the contextual variable values and the exploration rate.
+	"""
+	check_indexes_string = "true"
+	if not check_indexes:
+		check_indexes_string = "false"
+
+	score_filter_string = "false"
+	if score_filter is not None:
+		score_filter_string = str(score_filter)
+
+	ep = endpoints.POST_ECOSYSTEM_REWARDS_EXPLORE_APPROX_CONTEXT
+	json = {
+		"start_time": start_time,
+		"end_time": end_time,
+		"options_store_collection": options_store_collection,
+		"options_store_database": options_store_database,
+		"predictor": deployment_id,
+		"logging_collection": logging_collection,
+		"logging_database": logging_database,
+		"sample_size": str(sample_size),
+		"threshold": str(threshold),
+		"score_filter": score_filter_string,
+		"check_indexes": check_indexes_string
+	}
 	resp = request_utils.create(auth, ep, json=json, info=info)
 	result = resp.json()
 	return result
