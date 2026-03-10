@@ -847,7 +847,7 @@ def create_deployment(
         if not isinstance(setup_offer_matrix["table_collection"], str):
             raise TypeError("table_collection in setup_offer_matrix should be a string")
         if setup_offer_matrix["offer_lookup_id"] not in ["offer", "offer_id", "offer_name"]:
-            raise ValueError("offer_lookup_id in setup_offer_matrix must be offer, offer_name or offer_id ")
+            print("WARNING: offer_lookup_id in setup_offer_matrix should be offer, offer_name or offer_id ")
         if setup_offer_matrix["datasource"] == "mongodb" and test_mongo_connection:
             db_offer_matrix = test_client[setup_offer_matrix["database"]]
             if db_offer_matrix[setup_offer_matrix["table_collection"]].estimated_document_count() == 0:
