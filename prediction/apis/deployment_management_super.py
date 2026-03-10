@@ -195,7 +195,7 @@ def check_parameter_access_dict(parameter_access, auth=None, test_mongo_connecti
         ,{"field":"table_collection","type":str,"values":None}
         ,{"field":"url","type":str,"values":None}
         ,{"field":"lookup","type":dict,"values":["key","value"]}
-        ,{"field":"lookup_defaults","type":str,"values":None}
+        ,{"field":"lookup_defaults","type":(str,dict),"values":None}
         ,{"field":"lookup_fields","type":(list,type(None)),"values":None}
         ,{"field":"create_virtual_variables","type":bool,"values":None}
         ,{"field":"virtual_variables","type":list,"values":None}

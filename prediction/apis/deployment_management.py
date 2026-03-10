@@ -132,7 +132,7 @@ def define_deployment_parameter_access(
     :param table_collection: The table or collection to be used for lookup
     :param lookup_fields: A list of fields to be returned from the lookup. If not specified, the list of fields will be looked up from the specified data source and all fields will be returned
     :param lookup_default: The default value for the lookup key
-    :param defaults: A list of default values for fields in the lookup data set
+    :param defaults: A list or dictionary of default values for fields in the lookup data set
     :param virtual_variables: A list of virtual variables to be used in the parameter access structure. Virtual variables can be defined using the define_deployment_virtual_variable function.
     :param url: The url of the data source to be used for lookup if datasource is runtime. This should be the url of the external runtime
     """
@@ -205,7 +205,9 @@ def define_deployment_parameter_access(
         else:
             virtual_variables = []
 
-        if defaults != "":
+        if isinstance(defaults, dict):
+            defaults = json.dumps(defaults)
+        elif defaults != "":
             defaults = ",".join(defaults)
 
         parameter_access = {
@@ -345,7 +347,8 @@ def define_deployment_setup_offer_matrix(database, table_collection, datasource,
     if datasource not in ["mongodb", "cassandra", "presto"]:
         raise ValueError("datasource must be mongodb, cassandra or presto")
     if offer_lookup_id not in ["offer", "offer_id", "offer_name"]:
-        raise ValueError("offer_lookup_id must be offer, offer_id or offer_name")
+        print(f"WARNING: offer_lookup_id should be 'offer', 'offer_id' or 'offer_name' not {offer_lookup_id}")
+        #raise ValueError("offer_lookup_id must be offer, offer_id or offer_name")
 
     try:
         setup_offer_matrix = {
@@ -517,7 +520,7 @@ def create_deployment(
         description,
         plugin_post_score_class,
         version,
-        mongo_connect,
+        mongo_connect=None,
         plugin_pre_score_class="",
         plugin_reward_class="DefaultReward.java",
         plugin_post_score_code=None,
@@ -759,16 +762,26 @@ def create_deployment(
         raise ValueError("performance_expectation must be one of Low, Medium or High")
 
     # Check format of mongo_connect string and check if connection to database can be made
-    if not isinstance(mongo_connect, str):
-        raise TypeError("mongo_connect should be a string")
-    try:
-        test_client = pymongo.MongoClient(mongo_connect)
-        with pymongo.timeout(2):
-            test_client.admin.command("ping")
-        test_mongo_connection = True
-    except:
+    if mongo_connect is None:
+        print("WARNING: mongo_connect is not set, MONGO_CONNECT environment variable should be set when starting the runtime. Mongo data checks will not be run")
         test_mongo_connection = False
-        print("WARNING: Test connection to mongo database failed")
+        test_client = None
+        mongo_server_port = ""
+        mongo_ecosystem_password = ""
+        mongo_ecosystem_user = ""
+        mongo_connect = ""
+    else:
+        if not isinstance(mongo_connect, str):
+            raise TypeError("mongo_connect should be a string")
+        try:
+            test_client = pymongo.MongoClient(mongo_connect)
+            with pymongo.timeout(2):
+                test_client.admin.command("ping")
+            test_mongo_connection = True
+        except:
+            test_client = None
+            test_mongo_connection = False
+            print("WARNING: Test connection to mongo database failed")
 
     try:
         mongo_ecosystem_user = mongo_connect[
