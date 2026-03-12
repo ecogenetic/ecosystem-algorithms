@@ -550,7 +550,8 @@ def create_deployment(
         git_repo_path="",
         parameter_access="default",
         corpora="default",
-        extensive_validation=False
+        extensive_validation=False,
+        update_version=True,
 ):
     """
     Create or update a deployment linked to an existing project.
@@ -592,6 +593,7 @@ def create_deployment(
    :param git_repo_path_branch: The branch to use for the repo specified in git_repo_path_branch
    :param download_path: The url on Docker Hub where the built container will be pushed
    :param extensive_validation: Indicator of whether potentially time consuming validation should be run before the deployment is created. This additional validation is checking whether the fields in the model_parameter are present in the linked collection and vice-versa
+   :param update_version: Indicator of whether over writing of existing deployment versions should be allowed
 
    :return: The deployment configuration.
 
@@ -717,9 +719,12 @@ def create_deployment(
         raise TypeError("version should be a string")
     if "deployment_step" in project_details:
         for deployment_iter in project_details["deployment_step"]:
-            if (version == deployment_iter["version"]) and (deployment_id == deployment_iter["deployment_id"]):
+            if (version == deployment_iter["version"]) and (deployment_id == deployment_iter["deployment_id"]) and not update_version:
                 raise ValueError("The version specified for this deployment already exists, deployment not updated. "
                                  "Please update the version to update the deployment")
+            if (version == deployment_iter["version"]) and (deployment_id == deployment_iter["deployment_id"]):
+                print("WARNING: The version specified for this deployment already exists, overwriting version. "
+                      "To prevent this behavior pass update_version = False")
 
     # Check that description is a string
     if not isinstance(description, str):
