@@ -16,3 +16,9 @@ CONFIG = {
 	"call_message": "{type} {endpoint}",
 	"error_message": "{type} {endpoint} {response_code}"
 }
+CAMPAIGNS = {
+	"type": "get",
+	"endpoint": "/campaigns",
+	"call_message": "{type} {endpoint}",
+	"error_message": "{type} {endpoint} {response_code}"
+}

@@ -34,3 +34,9 @@ def config(auth, info=False):
     resp = request_utils.create(auth, ep, info=info)
     result = resp.json()
     return result
+
+def campaigns(auth, info=False):
+    ep = endpoints.CAMPAIGNS
+    resp = request_utils.create(auth, ep, info=info)
+    result = resp.json()
+    return result
