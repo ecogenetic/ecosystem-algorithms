@@ -228,13 +228,14 @@ def define_deployment_parameter_access(
     return parameter_access
 
 
-def define_deployment_model_configuration(models_to_load,models_note="",models_outline="Recommender"):
+def define_deployment_model_configuration(models_to_load,models_note="",models_outline="Recommender",explainability=False):
     """
     Define the model configuration structure for a deployment step
 
     :param models_to_load: A list of model names to be loaded
     :param models_note: A note to store with the model
     :param models_outline: The structure of the models
+    :param explainability: If true, shapely values for feature contributions are passed to the post score. May increase scoring latency and only available where supported by H20
     """
     if not isinstance(models_to_load, list):
         raise ValueError("models_to_load must be a list")
@@ -250,7 +251,8 @@ def define_deployment_model_configuration(models_to_load,models_note="",models_o
         model_configuration = {
             "models_load": models_load,
             "models_note": models_note,
-            "models_outline": models_outline
+            "models_outline": models_outline,
+            "explainability": explainability
         }
     except Exception as e:
         raise ValueError(f"Error creating model configuration structure: {e}")
