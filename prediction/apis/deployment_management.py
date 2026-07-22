@@ -9,10 +9,7 @@ from datetime import datetime
 from json import JSONDecodeError
 import json
 import pymongo
-import getpass
-import openshift_client as oc
-import yaml
-import time
+
 
 def get_column_list(auth, database, table_collection, datasource):
     """
@@ -1911,454 +1908,454 @@ def remove_network_node(auth, database, collection, node_value):
     return "Network node removed"
 
 
-def get_openshift_deployment_config(name, version, environment_variables, namespace="bdp-rts-dev",volume="tc-bdp-rts-dev-disk", replicas=1,
-                                    port=8999):
-    """
-    Create a deployment configuration yaml file for an OpenShift deployment. Will create a yaml file with the deployment configuration in the working directory.
-
-    :param name: The name of the deployment
-    :param version: The version of the ecosystem-runtime container
-    :param environment_variables: A list of environment variables to set in the deployment
-    :param namespace: The namespace to deploy the deployment in
-    :param volume: The volume to mount in the deployment
-    :param replicas: The number of replicas in the deployment
-    :param port: The port to expose in the deployment
-
-    :return: The deployment configuration
-    """
-    if not isinstance(name, str):
-        raise TypeError("name should be a string")
-    if "_" in name:
-        raise ValueError("name should not contain underscores")
-    if not isinstance(version, str):
-        raise TypeError("version should be a string")
-    valid_versions = [
-          "0.9.4.1"
-        , "0.9.4.1-arm"
-        , "0.9.4.2"
-        , "0.9.4.2-arm"
-        , "0.9.4.3"
-        , "0.9.4.3-arm"
-        , "0.9.4.4"
-        , "0.9.4.4-arm"
-        , "0.9.5.0"
-        , "0.9.5.0-arm"
-        , "latest"
-        , "arm"
-        ]
-    if not version in valid_versions:
-        raise ValueError("version should be one of {0}".format(valid_versions))
-    if not isinstance(environment_variables, list):
-        raise TypeError("environment_variables should be a list")
-    if not isinstance(namespace, str):
-        raise TypeError("namespace should be a string")
-    if not isinstance(volume, str):
-        raise TypeError("volume should be a string")
-    if not isinstance(replicas, int):
-        raise TypeError("replicas should be an integer")
-    if not isinstance(port, int):
-        raise TypeError("port should be an integer")
-
-    deployment_config = {
-        'apiVersion': 'apps/v1',
-        'kind': 'Deployment',
-        'metadata': {'labels': {'app': f'{name}',
-                                'app.kubernetes.io/component': f'{name}',
-                                'app.kubernetes.io/instance': f'{name}',
-                                'app.kubernetes.io/name': f'{name}',
-                                'app.kubernetes.io/part-of': 'ecosystem-runtimes',
-                                'app.openshift.io/runtime-namespace': f'{namespace}'},
-                     'name': f'{name}',
-                     'namespace': f'{namespace}'},
-        'spec': {'progressDeadlineSeconds': 600,
-                 'replicas': replicas,
-                 'revisionHistoryLimit': 10,
-                 'selector': {'matchLabels': {'app': f'{name}'}},
-                 'strategy': {'rollingUpdate': {'maxSurge': '100%',
-                                                'maxUnavailable': '25%'},
-                              'type': 'RollingUpdate'},
-                 'template': {'metadata': {'creationTimestamp': None,
-                                           'labels': {'app': f'{name}',
-                                                      'deployment': f'{name}'}},
-                              'spec': {'containers': [{'env': [{'name': 'NO_MONGODB',
-                                                                'value': 'true'},
-                                                               {'name': 'ECOSYSTEM_PROP_FILE',
-                                                                'value': '/config/ecosystem.properties'}],
-                                                       'image': f'docker.io/ecosystemai/ecosystem-runtime-solo:{version}',
-                                                       'imagePullPolicy': 'IfNotPresent',
-                                                       'name': f'{name}',
-                                                       'ports': [{'containerPort': port,
-                                                                  'protocol': 'TCP'}],
-                                                       'resources': {'limits': {'memory': '2Gi'},
-                                                                     'requests': {'memory': '2Gi'}},
-                                                       'terminationMessagePath': '/dev/termination-log',
-                                                       'terminationMessagePolicy': 'File',
-                                                       'volumeMounts': [{'mountPath': '/config',
-                                                                         'name': volume,
-                                                                         'subPath': f'{name}-config'},
-                                                                        {'mountPath': '/data',
-                                                                         'name': volume,
-                                                                         'subPath': f'{name}-data'}]}],
-                                       'dnsPolicy': 'ClusterFirst',
-                                       'restartPolicy': 'Always',
-                                       'schedulerName': 'default-scheduler',
-                                       'securityContext': {},
-                                       'terminationGracePeriodSeconds': 30,
-                                       'volumes': [{'name': volume,
-                                                    'persistentVolumeClaim': {'claimName': volume}}]
-                                       }
-                              }
-                 }
-    }
-    for var in environment_variables:
-        var_split = var.split("=")
-        if len(var_split) == 2:
-            var_dict = {"name": var_split[0], "value": var_split[1]}
-        else:
-            var_value=""
-            for value_component_iter in var_split[1:]:
-                var_value += f"{value_component_iter}="
-            var_value = var_value[:-1]
-            var_dict = {"name": var_split[0], "value": var_value}
-        deployment_config["spec"]["template"]["spec"]["containers"][0]["env"].append(var_dict)
-
-    with open(f'deployment-{name}.yaml', 'w+') as f:
-        yaml.dump(deployment_config, f)
-    return deployment_config
-
-
-def create_openshift_enpoint(name, openshift_server, oc_path, oc_user, version="0.9.5.0", environment_variables=None,
-                             port=8999, namespace="bdp-rts-dev", replicas=1, volume="tc-bdp-rts-dev-disk",
-                             cassandra_path=None, model_path=None, use_oc=True):
-    """
-    Create an OpenShift deployment for the ecosystem-runtime using a default configuration and expose the deployment as a route to allow the configuration to be updated.
-
-    :param name: The name of the deployment
-    :param openshift_server: The OpenShift server to deploy the deployment to
-    :param oc_path: The path to the oc executable
-    :param oc_user: The OpenShift user to use when connecting to oc
-    :param version: The version of the ecosystem-runtime container
-    :param environment_variables: A list of environment variables to set in the deployment
-    :param port: The port to expose in the deployment
-    :param namespace: The namespace to deploy the deployment in
-    :param replicas: The number of replicas in the deployment
-    :param volume: The volume to mount in the deployment
-    :param cassandra_path: The path to the cassandra configuration file
-    :param model_path: A list of the paths to the model files
-    :param use_oc: A boolean indicating whether to use the oc executable to create the deployment
-
-    :return: The endpoint of the deployment
-    """
-    if not isinstance(name, str):
-        raise TypeError("name should be a string")
-    if "_" in name:
-        raise ValueError("name should not contain underscores")
-    if not isinstance(openshift_server, str):
-        raise TypeError("openshift_server should be a string")
-    if not isinstance(oc_path, str):
-        raise TypeError("oc_path should be a string")
-    if not isinstance(oc_user, str):
-        raise TypeError("oc_user should be a string")
-    if not isinstance(version, str):
-        raise TypeError("version should be a string")
-    valid_versions = [
-          "0.9.4.1"
-        , "0.9.4.1-arm"
-        , "0.9.4.2"
-        , "0.9.4.2-arm"
-        , "0.9.4.3"
-        , "0.9.4.3-arm"
-        , "0.9.4.4"
-        , "0.9.4.4-arm"
-        , "0.9.5.0"
-        , "0.9.5.0-arm"
-        , "latest"
-        , "arm"
-        ]
-    if not version in valid_versions:
-        raise ValueError("version should be one of {0}".format(valid_versions))
-    if (not isinstance(environment_variables, list)) and (environment_variables is not None):
-        raise TypeError("environment_variables should be a list")
-    if not isinstance(port, int):
-        raise TypeError("port should be an integer")
-    if not isinstance(namespace, str):
-        raise TypeError("namespace should be a string")
-    if not isinstance(replicas, int):
-        raise TypeError("replicas should be an integer")
-    if not isinstance(use_oc, bool):
-        raise TypeError("use_oc should be a boolean")
-
-    ecosystem_key = getpass.getpass("Enter your ecosystem API key")
-    if environment_variables is None:
-        environment_variables = [
-            f"MASTER_KEY={ecosystem_key}",
-            "MONITORING_DELAY=600",
-            "FEATURE_DELAY=9999999999",
-            "CASSANDRA_CONFIG=/config/cassandra.conf",
-            "TZ=Africa/Johannesburg",
-            f"PORT={port}"
-        ]
-
-    deployment_config = get_openshift_deployment_config(name, version, environment_variables, namespace=namespace,
-                                                        volume=volume, replicas=replicas, port = port)
-
-    with open('version.txt', 'a') as f:
-        f.write(version)
-    if use_oc:
-        openshift_password = getpass.getpass("Enter your OpenShift password")
-        with oc.api_server(openshift_server), oc.client_path(oc_path):
-            oc.login(oc_user, openshift_password)
-            oc.apply(deployment_config)
-            all_pods_started = False
-            time.sleep(5)
-            while not all_pods_started:
-                all_pods_started = True
-                for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
-                    pod_name = pod_obj.name()
-                    print(f"Checking status of pod {pod_name}")
-                    log_string = pod_obj.logs()[list(pod_obj.logs().keys())[0]]
-                    if "Start ecosystem with standard memory option" not in log_string:
-                        all_pods_started = False
-                        print("Pod not started")
-                    else:
-                        print("Pod started")
-                if not all_pods_started:
-                    time.sleep(15)
-            print("All pods started successfully")
-
-            print("Checking runtime startup")
-            all_runtimes_started = False
-            while not all_runtimes_started:
-                all_runtimes_started = True
-                for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
-                    pod_name = pod_obj.name()
-                    print(f"Checking status of runtime on pod {pod_name}")
-                    try:
-                        exec_result = oc.selector(f'pod/{pod_name}').object().execute(
-                            ["curl", "-X", "GET", f"http://localhost:{port}/ping", "-H", "accept: */*"])
-                        if "success" not in exec_result.out():
-                            all_runtimes_started = False
-                            print("Runtime not started")
-                        else:
-                            print("Runtime started")
-                    except Exception as e:
-                        print(e)
-                        print("Error sending command to runtime")
-                if not all_runtimes_started:
-                    time.sleep(15)
-            print("All runtimes started successfully")
-            try:
-                oc.invoke("expose", ["deployment", name, f"--port={port}"])
-            except Exception as error:
-                serv_error_message = error.result.as_dict()["actions"][0]["err"]
-                if "already exists" in serv_error_message:
-                    print("WARNING: service already exists, if the port has been changed this will not take affect")
-                else:
-                    raise error
-            try:
-                oc.invoke("expose", ["svc", name, f"--port={port}"])
-            except Exception as error:
-                route_error_message = error.result.as_dict()["actions"][0]["err"]
-                if "already exists" in route_error_message:
-                    print("WARNING: route already exists, if the port has been changed this will not take affect")
-                else:
-                    raise error
-            oc.invoke("annotate", ["route", name, "haproxy.router.openshift.io/balance=roundrobin"])
-            oc.invoke("annotate", ["route", name, "haproxy.router.openshift.io/disable_cookies='true'"])
-            route_select = oc.selector("routes", labels={"app": name}).object()
-            route_details = route_select.describe()
-            ind_start = route_details.index("Requested Host:")
-            ind_end = route_details[ind_start + 15:].index(" ")
-            runtime_path = "http://{}".format(route_select.describe()[ind_start + 15:ind_start + 15 + ind_end].strip())
-            print(f"Endpoint created at: {runtime_path}")
-            if cassandra_path is not None:
-                oc.invoke("cp", [cassandra_path, f"{pod_name}:/config/cassandra.conf"])
-            if model_path is not None:
-                for model in model_path:
-                    oc.invoke("cp", [model, f"{pod_name}:/data/models/"])
-    else:
-        print(
-            "You have opted to complete the deployment without using oc. This will require you to manually copy a number of configurations into the OpenShift web console")
-        print("")
-        print(
-            f"Step 1: Open the deployment-{name}.yml file which has been created in this folder and copy the contents of the file. Log onto the OpenShift web console and confirm that you are working in the bdp-rts-dev project (this should be the project selected by default). Select Administrator view from the dropdown near the top left of the screen. Open the Workloads section of the left hand menu and select Deployments. Click the blue Create Deployment button in the top right corner of the Deployments section. In the radio button at the top of the Create Deployment view that is opened change from Form View to YAML view. Replace the text in the editor with the text you copied from deployment-{name}.yml and click the Create button below the editor.")
-        print("")
-        print(
-            "Step 2: Wait for the deployment to be created. This may take a few minutes. You can check the progress of the deployment by selecting Deployment and Pods in the Workloads section of the left hand menu and clicking on the case you have created.")
-        print("")
-        print("Step 3 (optional): If you want to connect to a Cassandra database you will need to add the cassandra.conf file to the deployment. Navigate to the pod you have created as described in the previous step. Open the Terminal tab. Change the working directory to config using the command 'cd config'. Copy the contents of your cassandra.conf file then go back to the terminal and type 'cat > cassandra.conf' and paste the contents of the file. Press Ctrl+D on a new line to save the file. You can check that the file has been created by typing 'ls' in the terminal and you can check the contents of the file by typing 'cat cassandra.conf'.")
-        print("")
-        service_config = {
-            "kind": "Service"
-            , "apiVersion": "v1"
-            , "metadata": {
-                "name": name
-                , "namespace": "bdp-rts-dev"
-                , "labels": {
-                    "app": name
-                    , "app.kubernetes.io/component": name
-                    , "app.kubernetes.io/instance": name
-                    , "app.kubernetes.io/name": name
-                    , "app.kubernetes.io/part-of": "ecosystem-runtimes"
-                    , "app.openshift.io/runtime-namespace": "bdp-rts-dev"
-                }
-            }
-            , "spec": {
-                "ports": [
-                    {"protocol": "TCP"
-                        , "port": port
-                        , "targetPort": port}
-                ]
-                , "selector": {
-                    "app": name
-                }
-            }
-        }
-        with open(f'service.yaml', 'w+') as f:
-            yaml.dump(service_config, f)
-        print(
-            "Step 4: Create a Service for the Deployment that you have created. Copy the contents of the service.yml file which has been created in this folder. Open the Networking section of the left hand menu and select Services. Click the blue Create Service button in the top right corner of the Serivces section. Replace the text in the editor with the text you copied from service.yml and click the Create button below the editor.")
-        print("")
-        print(
-            f"Step 5: Create a Route linked to the Deployment. Open the Networking section of the left hand menu and select Routes. Click the blue Create Route button in the top right corner of the deployment section. Set the Name to be {name}. Leave Hostname and Path empty. Select the Service you created and the Port for the service from the dropdowns. Leave the Secure Route tick box empty. Click the Create button.")
-        print("")
-        print(
-            "Step 6: Test the endpoint that you have created by navigating to the Route url (which you can find by Navigating to Networking -> Routes in the left hand menu) and calling the refresh api. The response to the refresh API call should include success.")
-        print("")
-        print("Step 7: Set the runtime_path variable in the notebook to be the url of the Route that you created")
-
-        runtime_path = "This variable needs to be set manually as oc is not being used in the setup"
-
-    return runtime_path
-
-
-def udate_properties_and_refresh(name, openshift_server, oc_path, oc_user, properties=None, port=8999, use_oc=True):
-    """
-    Update the properties of an ecosystem-runtime deployment in OpenShift and refresh the deployment to apply the changes.
-
-    :param name: The name of the deployment
-    :param openshift_server: The OpenShift server where the deployment is running
-    :param oc_path: The path to the oc executable
-    :param oc_user: The OpenShift user to use when connecting to oc
-    :param properties: The properties to push to the ecosystem-runtime
-    :param port: The port to exposed in the deployment
-    :param use_oc: A boolean indicating whether to use the oc executable to update the deployment
-    """
-    if not isinstance(name, str):
-        raise TypeError("name should be a string")
-    if not isinstance(openshift_server, str):
-        raise TypeError("openshift_server should be a string")
-    if not isinstance(oc_path, str):
-        raise TypeError("oc_path should be a string")
-    if not isinstance(oc_user, str):
-        raise TypeError("oc_user should be a string")
-    if not isinstance(properties, str):
-        raise TypeError("properties should be a string")
-    if not isinstance(port, int):
-        raise TypeError("port should be an integer")
-    if not isinstance(use_oc, bool):
-        raise TypeError("use_oc should be a boolean")
-
-    if use_oc:
-        with oc.api_server(openshift_server), oc.client_path(oc_path):
-            try:
-                oc.selector("projects")
-            except:
-                openshift_password = getpass.getpass("Enter your OpenShift password")
-                oc.login(oc_user, openshift_password)
-            for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
-                pod_name = pod_obj.name()
-                if properties is not None:
-                    print(f"Updating properties on pod {pod_name}")
-                    exec_result = oc.selector(f'pod/{pod_name}').object().execute(
-                        ["curl", "-X", "POST", f"http://localhost:{port}/updateProperties", "-H", "accept: */*", "-H",
-                         "Content-Type: application/json", "-d", properties])
-                print(f"Refreshing pod {pod_name}")
-                exec_result = oc.selector(f'pod/{pod_name}').object().execute(
-                    ["curl", "-X", "GET", f"http://localhost:{port}/refresh", "-H", "accept: */*"])
-    else:
-        print(
-            "You have opted to complete the deployment without using oc. Open the ecosystem.properties file that has been created in this folder and copy it's contents. Open the url of the route that you created (navigate the Networking -> Routes in the OpenShift web console to get the url). Find the updateProperties API in the swagger interface and call the api with the contents of the ecosystem.properties file as the request body. Then call the refresh api in the swagger interface and check that the response is success.")
-
-
-def tail_openshift_logs(name, openshift_server, oc_path, oc_user, lines, use_oc=True):
-    """
-    Tail the logs of an ecosystem-runtime deployment in OpenShift. If there are multiple pods for the deployment, the logs of each pod will be tailed.
-
-    :param name: The name of the deployment
-    :param openshift_server: The OpenShift server where the deployment is running
-    :param oc_path: The path to the oc executable
-    :param oc_user: The OpenShift user to use when connecting to oc
-    :param lines: The number of lines to tail from the log
-    :param use_oc: A boolean indicating whether to use the oc executable to tail the logs
-    """
-    if not isinstance(name, str):
-        raise TypeError("name should be a string")
-    if not isinstance(openshift_server, str):
-        raise TypeError("openshift_server should be a string")
-    if not isinstance(oc_path, str):
-        raise TypeError("oc_path should be a string")
-    if not isinstance(oc_user, str):
-        raise TypeError("oc_user should be a string")
-    if not isinstance(lines, int):
-        raise TypeError("lines should be an integer")
-    if not isinstance(use_oc, bool):
-        raise TypeError("use_oc should be a boolean")
-
-    if use_oc:
-        with oc.api_server(openshift_server), oc.client_path(oc_path):
-            try:
-                oc.selector("projects")
-            except:
-                openshift_password = getpass.getpass("Enter your OpenShift password")
-                oc.login(oc_user, openshift_password)
-            for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
-                pod_name = pod_obj.name()
-                print(f"Getting logs for pod {pod_name}")
-                exec_result = oc.selector(f'pod/{pod_name}').object().execute(
-                    ["tail", f"-{lines}", "/data/logs/pulse_responder.log"])
-                print(exec_result.out())
-                print("")
-    else:
-        print(
-            f"You have opted to complete the deployment without using oc. You will need to view the logs in the OpenShift web console. In the OpenShift web console select Adminstrator view then navigate to Workloads -> Deployment in the left hand menu. Select deployment {name} and in the view that appears open the Pods tab. Click on the name of the pod for which you would like to view the logs. In the view that opens select the Terminal tab. In the terminal view you can use the following command to follow the logs 'tail -f /data/logs/pulse_responder.log'")
-
-
-def get_openshift_service_ips(openshift_server, oc_path, oc_user, use_oc=True):
-    """
-    Get the IP addresses of the services running in OpenShift. If there are multiple services, the IP addresses of each service will be returned.
-
-    :param openshift_server: The OpenShift server from which the services should be retrieved
-    :param oc_path: The path to the oc executable
-    :param oc_user: The OpenShift user to use when connecting to oc
-    :param use_oc: A boolean indicating whether to use the oc executable to get the IP addresses of the services
-    """
-    if not isinstance(openshift_server, str):
-        raise TypeError("openshift_server should be a string")
-    if not isinstance(oc_path, str):
-        raise TypeError("oc_path should be a string")
-    if not isinstance(oc_user, str):
-        raise TypeError("oc_user should be a string")
-    if not isinstance(use_oc, bool):
-        raise TypeError("use_oc should be a boolean")
-
-    if use_oc:
-        services = {}
-        with oc.api_server(openshift_server), oc.client_path(oc_path):
-            try:
-                oc.selector("projects")
-            except:
-                openshift_password = getpass.getpass("Enter your OpenShift password")
-                oc.login(oc_user, openshift_password)
-            for service_obj in oc.selector("services").objects():
-                ser = service_obj.as_dict()
-                services[service_obj.as_dict()["metadata"]["name"]] = "http://{}:{}".format(ser["spec"]["clusterIP"],
-                                                                                            ser["spec"]["ports"][0][
-                                                                                                "port"])
-        for i in services:
-            print(i, services[i])
-        return services
-    else:
-        print(
-            "You have opted to complete the deployment without using oc. You will need to get the IP addresses of the Services running in OpenShift manually. In the OpenShift web console select Adminstrator view then navigate to Networking -> Services in the left hand menu. The IP addresses of eaach service are shown in the list of services. Copy the IP for the service that you want to link to the network recommender and copy it into the url in the add_node function call.")
-
+# def get_openshift_deployment_config(name, version, environment_variables, namespace="bdp-rts-dev",volume="tc-bdp-rts-dev-disk", replicas=1,
+#                                     port=8999):
+#     """
+#     Create a deployment configuration yaml file for an OpenShift deployment. Will create a yaml file with the deployment configuration in the working directory.
+#
+#     :param name: The name of the deployment
+#     :param version: The version of the ecosystem-runtime container
+#     :param environment_variables: A list of environment variables to set in the deployment
+#     :param namespace: The namespace to deploy the deployment in
+#     :param volume: The volume to mount in the deployment
+#     :param replicas: The number of replicas in the deployment
+#     :param port: The port to expose in the deployment
+#
+#     :return: The deployment configuration
+#     """
+#     if not isinstance(name, str):
+#         raise TypeError("name should be a string")
+#     if "_" in name:
+#         raise ValueError("name should not contain underscores")
+#     if not isinstance(version, str):
+#         raise TypeError("version should be a string")
+#     valid_versions = [
+#           "0.9.4.1"
+#         , "0.9.4.1-arm"
+#         , "0.9.4.2"
+#         , "0.9.4.2-arm"
+#         , "0.9.4.3"
+#         , "0.9.4.3-arm"
+#         , "0.9.4.4"
+#         , "0.9.4.4-arm"
+#         , "0.9.5.0"
+#         , "0.9.5.0-arm"
+#         , "latest"
+#         , "arm"
+#         ]
+#     if not version in valid_versions:
+#         raise ValueError("version should be one of {0}".format(valid_versions))
+#     if not isinstance(environment_variables, list):
+#         raise TypeError("environment_variables should be a list")
+#     if not isinstance(namespace, str):
+#         raise TypeError("namespace should be a string")
+#     if not isinstance(volume, str):
+#         raise TypeError("volume should be a string")
+#     if not isinstance(replicas, int):
+#         raise TypeError("replicas should be an integer")
+#     if not isinstance(port, int):
+#         raise TypeError("port should be an integer")
+#
+#     deployment_config = {
+#         'apiVersion': 'apps/v1',
+#         'kind': 'Deployment',
+#         'metadata': {'labels': {'app': f'{name}',
+#                                 'app.kubernetes.io/component': f'{name}',
+#                                 'app.kubernetes.io/instance': f'{name}',
+#                                 'app.kubernetes.io/name': f'{name}',
+#                                 'app.kubernetes.io/part-of': 'ecosystem-runtimes',
+#                                 'app.openshift.io/runtime-namespace': f'{namespace}'},
+#                      'name': f'{name}',
+#                      'namespace': f'{namespace}'},
+#         'spec': {'progressDeadlineSeconds': 600,
+#                  'replicas': replicas,
+#                  'revisionHistoryLimit': 10,
+#                  'selector': {'matchLabels': {'app': f'{name}'}},
+#                  'strategy': {'rollingUpdate': {'maxSurge': '100%',
+#                                                 'maxUnavailable': '25%'},
+#                               'type': 'RollingUpdate'},
+#                  'template': {'metadata': {'creationTimestamp': None,
+#                                            'labels': {'app': f'{name}',
+#                                                       'deployment': f'{name}'}},
+#                               'spec': {'containers': [{'env': [{'name': 'NO_MONGODB',
+#                                                                 'value': 'true'},
+#                                                                {'name': 'ECOSYSTEM_PROP_FILE',
+#                                                                 'value': '/config/ecosystem.properties'}],
+#                                                        'image': f'docker.io/ecosystemai/ecosystem-runtime-solo:{version}',
+#                                                        'imagePullPolicy': 'IfNotPresent',
+#                                                        'name': f'{name}',
+#                                                        'ports': [{'containerPort': port,
+#                                                                   'protocol': 'TCP'}],
+#                                                        'resources': {'limits': {'memory': '2Gi'},
+#                                                                      'requests': {'memory': '2Gi'}},
+#                                                        'terminationMessagePath': '/dev/termination-log',
+#                                                        'terminationMessagePolicy': 'File',
+#                                                        'volumeMounts': [{'mountPath': '/config',
+#                                                                          'name': volume,
+#                                                                          'subPath': f'{name}-config'},
+#                                                                         {'mountPath': '/data',
+#                                                                          'name': volume,
+#                                                                          'subPath': f'{name}-data'}]}],
+#                                        'dnsPolicy': 'ClusterFirst',
+#                                        'restartPolicy': 'Always',
+#                                        'schedulerName': 'default-scheduler',
+#                                        'securityContext': {},
+#                                        'terminationGracePeriodSeconds': 30,
+#                                        'volumes': [{'name': volume,
+#                                                     'persistentVolumeClaim': {'claimName': volume}}]
+#                                        }
+#                               }
+#                  }
+#     }
+#     for var in environment_variables:
+#         var_split = var.split("=")
+#         if len(var_split) == 2:
+#             var_dict = {"name": var_split[0], "value": var_split[1]}
+#         else:
+#             var_value=""
+#             for value_component_iter in var_split[1:]:
+#                 var_value += f"{value_component_iter}="
+#             var_value = var_value[:-1]
+#             var_dict = {"name": var_split[0], "value": var_value}
+#         deployment_config["spec"]["template"]["spec"]["containers"][0]["env"].append(var_dict)
+#
+#     with open(f'deployment-{name}.yaml', 'w+') as f:
+#         yaml.dump(deployment_config, f)
+#     return deployment_config
+#
+#
+# def create_openshift_enpoint(name, openshift_server, oc_path, oc_user, version="0.9.5.0", environment_variables=None,
+#                              port=8999, namespace="bdp-rts-dev", replicas=1, volume="tc-bdp-rts-dev-disk",
+#                              cassandra_path=None, model_path=None, use_oc=True):
+#     """
+#     Create an OpenShift deployment for the ecosystem-runtime using a default configuration and expose the deployment as a route to allow the configuration to be updated.
+#
+#     :param name: The name of the deployment
+#     :param openshift_server: The OpenShift server to deploy the deployment to
+#     :param oc_path: The path to the oc executable
+#     :param oc_user: The OpenShift user to use when connecting to oc
+#     :param version: The version of the ecosystem-runtime container
+#     :param environment_variables: A list of environment variables to set in the deployment
+#     :param port: The port to expose in the deployment
+#     :param namespace: The namespace to deploy the deployment in
+#     :param replicas: The number of replicas in the deployment
+#     :param volume: The volume to mount in the deployment
+#     :param cassandra_path: The path to the cassandra configuration file
+#     :param model_path: A list of the paths to the model files
+#     :param use_oc: A boolean indicating whether to use the oc executable to create the deployment
+#
+#     :return: The endpoint of the deployment
+#     """
+#     if not isinstance(name, str):
+#         raise TypeError("name should be a string")
+#     if "_" in name:
+#         raise ValueError("name should not contain underscores")
+#     if not isinstance(openshift_server, str):
+#         raise TypeError("openshift_server should be a string")
+#     if not isinstance(oc_path, str):
+#         raise TypeError("oc_path should be a string")
+#     if not isinstance(oc_user, str):
+#         raise TypeError("oc_user should be a string")
+#     if not isinstance(version, str):
+#         raise TypeError("version should be a string")
+#     valid_versions = [
+#           "0.9.4.1"
+#         , "0.9.4.1-arm"
+#         , "0.9.4.2"
+#         , "0.9.4.2-arm"
+#         , "0.9.4.3"
+#         , "0.9.4.3-arm"
+#         , "0.9.4.4"
+#         , "0.9.4.4-arm"
+#         , "0.9.5.0"
+#         , "0.9.5.0-arm"
+#         , "latest"
+#         , "arm"
+#         ]
+#     if not version in valid_versions:
+#         raise ValueError("version should be one of {0}".format(valid_versions))
+#     if (not isinstance(environment_variables, list)) and (environment_variables is not None):
+#         raise TypeError("environment_variables should be a list")
+#     if not isinstance(port, int):
+#         raise TypeError("port should be an integer")
+#     if not isinstance(namespace, str):
+#         raise TypeError("namespace should be a string")
+#     if not isinstance(replicas, int):
+#         raise TypeError("replicas should be an integer")
+#     if not isinstance(use_oc, bool):
+#         raise TypeError("use_oc should be a boolean")
+#
+#     ecosystem_key = getpass.getpass("Enter your ecosystem API key")
+#     if environment_variables is None:
+#         environment_variables = [
+#             f"MASTER_KEY={ecosystem_key}",
+#             "MONITORING_DELAY=600",
+#             "FEATURE_DELAY=9999999999",
+#             "CASSANDRA_CONFIG=/config/cassandra.conf",
+#             "TZ=Africa/Johannesburg",
+#             f"PORT={port}"
+#         ]
+#
+#     deployment_config = get_openshift_deployment_config(name, version, environment_variables, namespace=namespace,
+#                                                         volume=volume, replicas=replicas, port = port)
+#
+#     with open('version.txt', 'a') as f:
+#         f.write(version)
+#     if use_oc:
+#         openshift_password = getpass.getpass("Enter your OpenShift password")
+#         with oc.api_server(openshift_server), oc.client_path(oc_path):
+#             oc.login(oc_user, openshift_password)
+#             oc.apply(deployment_config)
+#             all_pods_started = False
+#             time.sleep(5)
+#             while not all_pods_started:
+#                 all_pods_started = True
+#                 for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
+#                     pod_name = pod_obj.name()
+#                     print(f"Checking status of pod {pod_name}")
+#                     log_string = pod_obj.logs()[list(pod_obj.logs().keys())[0]]
+#                     if "Start ecosystem with standard memory option" not in log_string:
+#                         all_pods_started = False
+#                         print("Pod not started")
+#                     else:
+#                         print("Pod started")
+#                 if not all_pods_started:
+#                     time.sleep(15)
+#             print("All pods started successfully")
+#
+#             print("Checking runtime startup")
+#             all_runtimes_started = False
+#             while not all_runtimes_started:
+#                 all_runtimes_started = True
+#                 for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
+#                     pod_name = pod_obj.name()
+#                     print(f"Checking status of runtime on pod {pod_name}")
+#                     try:
+#                         exec_result = oc.selector(f'pod/{pod_name}').object().execute(
+#                             ["curl", "-X", "GET", f"http://localhost:{port}/ping", "-H", "accept: */*"])
+#                         if "success" not in exec_result.out():
+#                             all_runtimes_started = False
+#                             print("Runtime not started")
+#                         else:
+#                             print("Runtime started")
+#                     except Exception as e:
+#                         print(e)
+#                         print("Error sending command to runtime")
+#                 if not all_runtimes_started:
+#                     time.sleep(15)
+#             print("All runtimes started successfully")
+#             try:
+#                 oc.invoke("expose", ["deployment", name, f"--port={port}"])
+#             except Exception as error:
+#                 serv_error_message = error.result.as_dict()["actions"][0]["err"]
+#                 if "already exists" in serv_error_message:
+#                     print("WARNING: service already exists, if the port has been changed this will not take affect")
+#                 else:
+#                     raise error
+#             try:
+#                 oc.invoke("expose", ["svc", name, f"--port={port}"])
+#             except Exception as error:
+#                 route_error_message = error.result.as_dict()["actions"][0]["err"]
+#                 if "already exists" in route_error_message:
+#                     print("WARNING: route already exists, if the port has been changed this will not take affect")
+#                 else:
+#                     raise error
+#             oc.invoke("annotate", ["route", name, "haproxy.router.openshift.io/balance=roundrobin"])
+#             oc.invoke("annotate", ["route", name, "haproxy.router.openshift.io/disable_cookies='true'"])
+#             route_select = oc.selector("routes", labels={"app": name}).object()
+#             route_details = route_select.describe()
+#             ind_start = route_details.index("Requested Host:")
+#             ind_end = route_details[ind_start + 15:].index(" ")
+#             runtime_path = "http://{}".format(route_select.describe()[ind_start + 15:ind_start + 15 + ind_end].strip())
+#             print(f"Endpoint created at: {runtime_path}")
+#             if cassandra_path is not None:
+#                 oc.invoke("cp", [cassandra_path, f"{pod_name}:/config/cassandra.conf"])
+#             if model_path is not None:
+#                 for model in model_path:
+#                     oc.invoke("cp", [model, f"{pod_name}:/data/models/"])
+#     else:
+#         print(
+#             "You have opted to complete the deployment without using oc. This will require you to manually copy a number of configurations into the OpenShift web console")
+#         print("")
+#         print(
+#             f"Step 1: Open the deployment-{name}.yml file which has been created in this folder and copy the contents of the file. Log onto the OpenShift web console and confirm that you are working in the bdp-rts-dev project (this should be the project selected by default). Select Administrator view from the dropdown near the top left of the screen. Open the Workloads section of the left hand menu and select Deployments. Click the blue Create Deployment button in the top right corner of the Deployments section. In the radio button at the top of the Create Deployment view that is opened change from Form View to YAML view. Replace the text in the editor with the text you copied from deployment-{name}.yml and click the Create button below the editor.")
+#         print("")
+#         print(
+#             "Step 2: Wait for the deployment to be created. This may take a few minutes. You can check the progress of the deployment by selecting Deployment and Pods in the Workloads section of the left hand menu and clicking on the case you have created.")
+#         print("")
+#         print("Step 3 (optional): If you want to connect to a Cassandra database you will need to add the cassandra.conf file to the deployment. Navigate to the pod you have created as described in the previous step. Open the Terminal tab. Change the working directory to config using the command 'cd config'. Copy the contents of your cassandra.conf file then go back to the terminal and type 'cat > cassandra.conf' and paste the contents of the file. Press Ctrl+D on a new line to save the file. You can check that the file has been created by typing 'ls' in the terminal and you can check the contents of the file by typing 'cat cassandra.conf'.")
+#         print("")
+#         service_config = {
+#             "kind": "Service"
+#             , "apiVersion": "v1"
+#             , "metadata": {
+#                 "name": name
+#                 , "namespace": "bdp-rts-dev"
+#                 , "labels": {
+#                     "app": name
+#                     , "app.kubernetes.io/component": name
+#                     , "app.kubernetes.io/instance": name
+#                     , "app.kubernetes.io/name": name
+#                     , "app.kubernetes.io/part-of": "ecosystem-runtimes"
+#                     , "app.openshift.io/runtime-namespace": "bdp-rts-dev"
+#                 }
+#             }
+#             , "spec": {
+#                 "ports": [
+#                     {"protocol": "TCP"
+#                         , "port": port
+#                         , "targetPort": port}
+#                 ]
+#                 , "selector": {
+#                     "app": name
+#                 }
+#             }
+#         }
+#         with open(f'service.yaml', 'w+') as f:
+#             yaml.dump(service_config, f)
+#         print(
+#             "Step 4: Create a Service for the Deployment that you have created. Copy the contents of the service.yml file which has been created in this folder. Open the Networking section of the left hand menu and select Services. Click the blue Create Service button in the top right corner of the Serivces section. Replace the text in the editor with the text you copied from service.yml and click the Create button below the editor.")
+#         print("")
+#         print(
+#             f"Step 5: Create a Route linked to the Deployment. Open the Networking section of the left hand menu and select Routes. Click the blue Create Route button in the top right corner of the deployment section. Set the Name to be {name}. Leave Hostname and Path empty. Select the Service you created and the Port for the service from the dropdowns. Leave the Secure Route tick box empty. Click the Create button.")
+#         print("")
+#         print(
+#             "Step 6: Test the endpoint that you have created by navigating to the Route url (which you can find by Navigating to Networking -> Routes in the left hand menu) and calling the refresh api. The response to the refresh API call should include success.")
+#         print("")
+#         print("Step 7: Set the runtime_path variable in the notebook to be the url of the Route that you created")
+#
+#         runtime_path = "This variable needs to be set manually as oc is not being used in the setup"
+#
+#     return runtime_path
+#
+#
+# def udate_properties_and_refresh(name, openshift_server, oc_path, oc_user, properties=None, port=8999, use_oc=True):
+#     """
+#     Update the properties of an ecosystem-runtime deployment in OpenShift and refresh the deployment to apply the changes.
+#
+#     :param name: The name of the deployment
+#     :param openshift_server: The OpenShift server where the deployment is running
+#     :param oc_path: The path to the oc executable
+#     :param oc_user: The OpenShift user to use when connecting to oc
+#     :param properties: The properties to push to the ecosystem-runtime
+#     :param port: The port to exposed in the deployment
+#     :param use_oc: A boolean indicating whether to use the oc executable to update the deployment
+#     """
+#     if not isinstance(name, str):
+#         raise TypeError("name should be a string")
+#     if not isinstance(openshift_server, str):
+#         raise TypeError("openshift_server should be a string")
+#     if not isinstance(oc_path, str):
+#         raise TypeError("oc_path should be a string")
+#     if not isinstance(oc_user, str):
+#         raise TypeError("oc_user should be a string")
+#     if not isinstance(properties, str):
+#         raise TypeError("properties should be a string")
+#     if not isinstance(port, int):
+#         raise TypeError("port should be an integer")
+#     if not isinstance(use_oc, bool):
+#         raise TypeError("use_oc should be a boolean")
+#
+#     if use_oc:
+#         with oc.api_server(openshift_server), oc.client_path(oc_path):
+#             try:
+#                 oc.selector("projects")
+#             except:
+#                 openshift_password = getpass.getpass("Enter your OpenShift password")
+#                 oc.login(oc_user, openshift_password)
+#             for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
+#                 pod_name = pod_obj.name()
+#                 if properties is not None:
+#                     print(f"Updating properties on pod {pod_name}")
+#                     exec_result = oc.selector(f'pod/{pod_name}').object().execute(
+#                         ["curl", "-X", "POST", f"http://localhost:{port}/updateProperties", "-H", "accept: */*", "-H",
+#                          "Content-Type: application/json", "-d", properties])
+#                 print(f"Refreshing pod {pod_name}")
+#                 exec_result = oc.selector(f'pod/{pod_name}').object().execute(
+#                     ["curl", "-X", "GET", f"http://localhost:{port}/refresh", "-H", "accept: */*"])
+#     else:
+#         print(
+#             "You have opted to complete the deployment without using oc. Open the ecosystem.properties file that has been created in this folder and copy it's contents. Open the url of the route that you created (navigate the Networking -> Routes in the OpenShift web console to get the url). Find the updateProperties API in the swagger interface and call the api with the contents of the ecosystem.properties file as the request body. Then call the refresh api in the swagger interface and check that the response is success.")
+#
+#
+# def tail_openshift_logs(name, openshift_server, oc_path, oc_user, lines, use_oc=True):
+#     """
+#     Tail the logs of an ecosystem-runtime deployment in OpenShift. If there are multiple pods for the deployment, the logs of each pod will be tailed.
+#
+#     :param name: The name of the deployment
+#     :param openshift_server: The OpenShift server where the deployment is running
+#     :param oc_path: The path to the oc executable
+#     :param oc_user: The OpenShift user to use when connecting to oc
+#     :param lines: The number of lines to tail from the log
+#     :param use_oc: A boolean indicating whether to use the oc executable to tail the logs
+#     """
+#     if not isinstance(name, str):
+#         raise TypeError("name should be a string")
+#     if not isinstance(openshift_server, str):
+#         raise TypeError("openshift_server should be a string")
+#     if not isinstance(oc_path, str):
+#         raise TypeError("oc_path should be a string")
+#     if not isinstance(oc_user, str):
+#         raise TypeError("oc_user should be a string")
+#     if not isinstance(lines, int):
+#         raise TypeError("lines should be an integer")
+#     if not isinstance(use_oc, bool):
+#         raise TypeError("use_oc should be a boolean")
+#
+#     if use_oc:
+#         with oc.api_server(openshift_server), oc.client_path(oc_path):
+#             try:
+#                 oc.selector("projects")
+#             except:
+#                 openshift_password = getpass.getpass("Enter your OpenShift password")
+#                 oc.login(oc_user, openshift_password)
+#             for pod_obj in oc.selector("pods", labels={"deployment": name}).objects():
+#                 pod_name = pod_obj.name()
+#                 print(f"Getting logs for pod {pod_name}")
+#                 exec_result = oc.selector(f'pod/{pod_name}').object().execute(
+#                     ["tail", f"-{lines}", "/data/logs/pulse_responder.log"])
+#                 print(exec_result.out())
+#                 print("")
+#     else:
+#         print(
+#             f"You have opted to complete the deployment without using oc. You will need to view the logs in the OpenShift web console. In the OpenShift web console select Adminstrator view then navigate to Workloads -> Deployment in the left hand menu. Select deployment {name} and in the view that appears open the Pods tab. Click on the name of the pod for which you would like to view the logs. In the view that opens select the Terminal tab. In the terminal view you can use the following command to follow the logs 'tail -f /data/logs/pulse_responder.log'")
+#
+#
+# def get_openshift_service_ips(openshift_server, oc_path, oc_user, use_oc=True):
+#     """
+#     Get the IP addresses of the services running in OpenShift. If there are multiple services, the IP addresses of each service will be returned.
+#
+#     :param openshift_server: The OpenShift server from which the services should be retrieved
+#     :param oc_path: The path to the oc executable
+#     :param oc_user: The OpenShift user to use when connecting to oc
+#     :param use_oc: A boolean indicating whether to use the oc executable to get the IP addresses of the services
+#     """
+#     if not isinstance(openshift_server, str):
+#         raise TypeError("openshift_server should be a string")
+#     if not isinstance(oc_path, str):
+#         raise TypeError("oc_path should be a string")
+#     if not isinstance(oc_user, str):
+#         raise TypeError("oc_user should be a string")
+#     if not isinstance(use_oc, bool):
+#         raise TypeError("use_oc should be a boolean")
+#
+#     if use_oc:
+#         services = {}
+#         with oc.api_server(openshift_server), oc.client_path(oc_path):
+#             try:
+#                 oc.selector("projects")
+#             except:
+#                 openshift_password = getpass.getpass("Enter your OpenShift password")
+#                 oc.login(oc_user, openshift_password)
+#             for service_obj in oc.selector("services").objects():
+#                 ser = service_obj.as_dict()
+#                 services[service_obj.as_dict()["metadata"]["name"]] = "http://{}:{}".format(ser["spec"]["clusterIP"],
+#                                                                                             ser["spec"]["ports"][0][
+#                                                                                                 "port"])
+#         for i in services:
+#             print(i, services[i])
+#         return services
+#     else:
+#         print(
+#             "You have opted to complete the deployment without using oc. You will need to get the IP addresses of the Services running in OpenShift manually. In the OpenShift web console select Adminstrator view then navigate to Networking -> Services in the left hand menu. The IP addresses of eaach service are shown in the list of services. Copy the IP for the service that you want to link to the network recommender and copy it into the url in the add_node function call.")
+#

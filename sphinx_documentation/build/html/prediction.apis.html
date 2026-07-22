@@ -1219,34 +1219,6 @@ and a dynamic corpora specifying a default offer.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="prediction.apis.deployment_management.create_openshift_enpoint">
-<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">create_openshift_enpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">openshift_server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.9.5.0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bdp-rts-dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tc-bdp-rts-dev-disk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cassandra_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.create_openshift_enpoint" title="Link to this definition">¶</a></dt>
-<dd><p>Create an OpenShift deployment for the ecosystem-runtime using a default configuration and expose the deployment as a route to allow the configuration to be updated.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – The name of the deployment</p></li>
-<li><p><strong>openshift_server</strong> – The OpenShift server to deploy the deployment to</p></li>
-<li><p><strong>oc_path</strong> – The path to the oc executable</p></li>
-<li><p><strong>oc_user</strong> – The OpenShift user to use when connecting to oc</p></li>
-<li><p><strong>version</strong> – The version of the ecosystem-runtime container</p></li>
-<li><p><strong>environment_variables</strong> – A list of environment variables to set in the deployment</p></li>
-<li><p><strong>port</strong> – The port to expose in the deployment</p></li>
-<li><p><strong>namespace</strong> – The namespace to deploy the deployment in</p></li>
-<li><p><strong>replicas</strong> – The number of replicas in the deployment</p></li>
-<li><p><strong>volume</strong> – The volume to mount in the deployment</p></li>
-<li><p><strong>cassandra_path</strong> – The path to the cassandra configuration file</p></li>
-<li><p><strong>model_path</strong> – A list of the paths to the model files</p></li>
-<li><p><strong>use_oc</strong> – A boolean indicating whether to use the oc executable to create the deployment</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The endpoint of the deployment</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="prediction.apis.deployment_management.create_project">
 <span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Recommender'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">purpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Recommender'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_science_lead</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_lead</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_module_owner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_created_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_reviewed_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_image_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_icon_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_contact_email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_fact_sheet_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_categories</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.create_project" title="Link to this definition">¶</a></dt>
 <dd><blockquote>
@@ -1284,7 +1256,7 @@ and a dynamic corpora specifying a default offer.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="prediction.apis.deployment_management.define_deployment_model_configuration">
-<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">define_deployment_model_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models_to_load</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models_note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models_outline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Recommender'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.define_deployment_model_configuration" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">define_deployment_model_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models_to_load</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models_note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models_outline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Recommender'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explainability</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.define_deployment_model_configuration" title="Link to this definition">¶</a></dt>
 <dd><p>Define the model configuration structure for a deployment step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1292,6 +1264,7 @@ and a dynamic corpora specifying a default offer.</p>
 <li><p><strong>models_to_load</strong> – A list of model names to be loaded</p></li>
 <li><p><strong>models_note</strong> – A note to store with the model</p></li>
 <li><p><strong>models_outline</strong> – The structure of the models</p></li>
+<li><p><strong>explainability</strong> – If true, shapely values for feature contributions are passed to the post score. May increase scoring latency and only available where supported by H20</p></li>
 </ul>
 </dd>
 </dl>
@@ -1460,44 +1433,6 @@ and a dynamic corpora specifying a default offer.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="prediction.apis.deployment_management.get_openshift_deployment_config">
-<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">get_openshift_deployment_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bdp-rts-dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tc-bdp-rts-dev-disk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8999</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.get_openshift_deployment_config" title="Link to this definition">¶</a></dt>
-<dd><p>Create a deployment configuration yaml file for an OpenShift deployment. Will create a yaml file with the deployment configuration in the working directory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – The name of the deployment</p></li>
-<li><p><strong>version</strong> – The version of the ecosystem-runtime container</p></li>
-<li><p><strong>environment_variables</strong> – A list of environment variables to set in the deployment</p></li>
-<li><p><strong>namespace</strong> – The namespace to deploy the deployment in</p></li>
-<li><p><strong>volume</strong> – The volume to mount in the deployment</p></li>
-<li><p><strong>replicas</strong> – The number of replicas in the deployment</p></li>
-<li><p><strong>port</strong> – The port to expose in the deployment</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The deployment configuration</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="prediction.apis.deployment_management.get_openshift_service_ips">
-<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">get_openshift_service_ips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">openshift_server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.get_openshift_service_ips" title="Link to this definition">¶</a></dt>
-<dd><p>Get the IP addresses of the services running in OpenShift. If there are multiple services, the IP addresses of each service will be returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>openshift_server</strong> – The OpenShift server from which the services should be retrieved</p></li>
-<li><p><strong>oc_path</strong> – The path to the oc executable</p></li>
-<li><p><strong>oc_user</strong> – The OpenShift user to use when connecting to oc</p></li>
-<li><p><strong>use_oc</strong> – A boolean indicating whether to use the oc executable to get the IP addresses of the services</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="prediction.apis.deployment_management.link_collections_to_project">
 <span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">link_collections_to_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collections</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.link_collections_to_project" title="Link to this definition">¶</a></dt>
 <dd><p>Link collections to a project</p>
@@ -1554,24 +1489,6 @@ param: output_level: The level of output to print. Options are “quiet” and �
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="prediction.apis.deployment_management.tail_openshift_logs">
-<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">tail_openshift_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">openshift_server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.tail_openshift_logs" title="Link to this definition">¶</a></dt>
-<dd><p>Tail the logs of an ecosystem-runtime deployment in OpenShift. If there are multiple pods for the deployment, the logs of each pod will be tailed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – The name of the deployment</p></li>
-<li><p><strong>openshift_server</strong> – The OpenShift server where the deployment is running</p></li>
-<li><p><strong>oc_path</strong> – The path to the oc executable</p></li>
-<li><p><strong>oc_user</strong> – The OpenShift user to use when connecting to oc</p></li>
-<li><p><strong>lines</strong> – The number of lines to tail from the log</p></li>
-<li><p><strong>use_oc</strong> – A boolean indicating whether to use the oc executable to tail the logs</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="prediction.apis.deployment_management.test_deployment">
 <span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">test_deployment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_runtime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deployment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quiet'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.test_deployment" title="Link to this definition">¶</a></dt>
 <dd><p>Test a deployment using the testing configuration saved for the deployment</p>
@@ -1584,25 +1501,6 @@ param: output_level: The level of output to print. Options are “quiet” and �
 <li><p><strong>deployment_id</strong> – The deployment_id of the deployment</p></li>
 <li><p><strong>version</strong> – The version of the deployment</p></li>
 <li><p><strong>output_level</strong> – The level of output to print. Options are “quiet” and “verbose”</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="prediction.apis.deployment_management.udate_properties_and_refresh">
-<span class="sig-prename descclassname"><span class="pre">prediction.apis.deployment_management.</span></span><span class="sig-name descname"><span class="pre">udate_properties_and_refresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">openshift_server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oc_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#prediction.apis.deployment_management.udate_properties_and_refresh" title="Link to this definition">¶</a></dt>
-<dd><p>Update the properties of an ecosystem-runtime deployment in OpenShift and refresh the deployment to apply the changes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – The name of the deployment</p></li>
-<li><p><strong>openshift_server</strong> – The OpenShift server where the deployment is running</p></li>
-<li><p><strong>oc_path</strong> – The path to the oc executable</p></li>
-<li><p><strong>oc_user</strong> – The OpenShift user to use when connecting to oc</p></li>
-<li><p><strong>properties</strong> – The properties to push to the ecosystem-runtime</p></li>
-<li><p><strong>port</strong> – The port to exposed in the deployment</p></li>
-<li><p><strong>use_oc</strong> – A boolean indicating whether to use the oc executable to update the deployment</p></li>
 </ul>
 </dd>
 </dl>
@@ -2832,7 +2730,6 @@ containing the relevant offers.</p>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.add_network_node"><code class="docutils literal notranslate"><span class="pre">add_network_node()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.create_deployment"><code class="docutils literal notranslate"><span class="pre">create_deployment()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.create_network_configuration"><code class="docutils literal notranslate"><span class="pre">create_network_configuration()</span></code></a></li>
-<li><a class="reference internal" href="#prediction.apis.deployment_management.create_openshift_enpoint"><code class="docutils literal notranslate"><span class="pre">create_openshift_enpoint()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.define_deployment_model_configuration"><code class="docutils literal notranslate"><span class="pre">define_deployment_model_configuration()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.define_deployment_model_selector"><code class="docutils literal notranslate"><span class="pre">define_deployment_model_selector()</span></code></a></li>
@@ -2844,15 +2741,11 @@ containing the relevant offers.</p>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.distribution_test"><code class="docutils literal notranslate"><span class="pre">distribution_test()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.get_column_list"><code class="docutils literal notranslate"><span class="pre">get_column_list()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.get_deployment_step"><code class="docutils literal notranslate"><span class="pre">get_deployment_step()</span></code></a></li>
-<li><a class="reference internal" href="#prediction.apis.deployment_management.get_openshift_deployment_config"><code class="docutils literal notranslate"><span class="pre">get_openshift_deployment_config()</span></code></a></li>
-<li><a class="reference internal" href="#prediction.apis.deployment_management.get_openshift_service_ips"><code class="docutils literal notranslate"><span class="pre">get_openshift_service_ips()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.link_collections_to_project"><code class="docutils literal notranslate"><span class="pre">link_collections_to_project()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.link_dynamic_interactions_to_project"><code class="docutils literal notranslate"><span class="pre">link_dynamic_interactions_to_project()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.remove_network_node"><code class="docutils literal notranslate"><span class="pre">remove_network_node()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.single_test_calls"><code class="docutils literal notranslate"><span class="pre">single_test_calls()</span></code></a></li>
-<li><a class="reference internal" href="#prediction.apis.deployment_management.tail_openshift_logs"><code class="docutils literal notranslate"><span class="pre">tail_openshift_logs()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.test_deployment"><code class="docutils literal notranslate"><span class="pre">test_deployment()</span></code></a></li>
-<li><a class="reference internal" href="#prediction.apis.deployment_management.udate_properties_and_refresh"><code class="docutils literal notranslate"><span class="pre">udate_properties_and_refresh()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.update_deployment_step"><code class="docutils literal notranslate"><span class="pre">update_deployment_step()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.update_project"><code class="docutils literal notranslate"><span class="pre">update_project()</span></code></a></li>
 <li><a class="reference internal" href="#prediction.apis.deployment_management.update_project_name"><code class="docutils literal notranslate"><span class="pre">update_project_name()</span></code></a></li>
