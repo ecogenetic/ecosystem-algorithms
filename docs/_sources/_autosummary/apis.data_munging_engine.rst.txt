@@ -1,0 +1,60 @@
+apis.data\_munging\_engine
+==========================
+
+.. automodule:: apis.data_munging_engine
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      auto_normalize_all
+      concat_columns
+      concat_columns2
+      delete_key
+      delete_many_documents
+      enrich_date
+      enrich_date2
+      enrich_fragments
+      enrich_fragments2
+      enrich_location
+      enrich_mcc
+      enrich_sic
+      enum_convert
+      fill_values
+      fill_zeros
+      flatten_document
+      foreign_key_aggregator
+      foreign_key_lookup
+      generate_features
+      generate_features_normalize
+      generate_time_series_features
+      get_categories
+      get_categories_ratio
+      munge_transactions
+      munge_transactions_aggregate
+      nlp_worker
+      personality_enrich
+      predicition_enrich
+      prediction_enrich_fast
+      prediction_enrich_fast_post
+      process_client_pulse_reliability
+      process_range
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

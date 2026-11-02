@@ -1,0 +1,42 @@
+apis.deployment\_management
+===========================
+
+.. automodule:: apis.deployment_management
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      create_deployment
+      create_project
+      get_api_endpoint_code_default
+      get_budget_tracker_default
+      get_corpora_default
+      get_model_configuration_default
+      get_model_selector_default
+      get_multi_armed_bandit_default
+      get_parameter_access_default
+      get_pattern_selector_default
+      get_post_score_code
+      get_pre_score_code
+      get_setup_offer_matrix_default
+      get_whitelist_default
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

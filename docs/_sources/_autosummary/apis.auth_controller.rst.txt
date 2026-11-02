@@ -1,0 +1,34 @@
+apis.auth\_controller
+=====================
+
+.. automodule:: apis.auth_controller
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      refresh_token
+      request_password
+      reset_password
+      restore_password
+      sign_out
+      sign_up
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

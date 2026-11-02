@@ -1,0 +1,60 @@
+apis.prediction\_engine
+=======================
+
+.. automodule:: apis.prediction_engine
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      delete_analysis
+      delete_model
+      delete_prediction
+      delete_prediction_project
+      delete_user_deployments
+      delete_userframe
+      deploy_predictor
+      download_project
+      get_analysis_result
+      get_analysis_results
+      get_featurestore
+      get_featurestores
+      get_prediction
+      get_prediction_project
+      get_prediction_projects
+      get_prediction_projects_base
+      get_uframe
+      get_user_deployment
+      get_user_deployments
+      get_user_featurestores
+      get_user_files
+      get_user_model
+      get_user_models
+      get_user_predictions
+      import_module
+      save_analysis
+      save_model
+      save_prediction
+      save_prediction_project
+      save_user_deployments
+      save_user_frame
+      test_model
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

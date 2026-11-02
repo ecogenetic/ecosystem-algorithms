@@ -1,0 +1,29 @@
+apis.worker\_microsoft
+======================
+
+.. automodule:: apis.worker_microsoft
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_anomaly
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

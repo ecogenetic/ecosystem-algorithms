@@ -1,0 +1,29 @@
+apis.quickflat
+==============
+
+.. automodule:: apis.quickflat
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      QuickFlat
+   
+   
+
+   
+   
+   
+
+
+

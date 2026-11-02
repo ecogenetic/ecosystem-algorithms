@@ -1,0 +1,39 @@
+apis.worker\_aws
+================
+
+.. automodule:: apis.worker_aws
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      create_tenant
+      delete_tenant
+      get_status
+      list_tenants
+      manage_tenant
+      post_create_tenant
+      post_set_credentials
+      set_configuration
+      set_credentials
+      set_tenant
+      validate_tenant
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

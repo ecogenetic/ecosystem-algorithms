@@ -41,8 +41,7 @@ env/
 # Project temp
 tmp/*
 
-# Documentation build output
-docs/
+# Local Sphinx build output (docs/ is committed for GitHub Pages)
 sphinx_documentation/build/
 
 # Legacy egg-info path

@@ -1,0 +1,31 @@
+apis.user\_controller
+=====================
+
+.. automodule:: apis.user_controller
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_current_user
+      post_users
+      users
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

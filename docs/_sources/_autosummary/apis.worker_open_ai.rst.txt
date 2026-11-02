@@ -1,0 +1,29 @@
+apis.worker\_open\_ai
+=====================
+
+.. automodule:: apis.worker_open_ai
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_open_ai_result
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

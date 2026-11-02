@@ -1,0 +1,44 @@
+apis.algorithm\_client\_pulse
+=============================
+
+.. automodule:: apis.algorithm_client_pulse
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      delete_pulse_responder_dynamic
+      generate_cox_ph_data
+      generate_forecast
+      get_pulse_responder_messages
+      get_pulse_responder_options
+      get_pulse_responder_profile
+      get_timeline
+      list_pulse_responder_dynamic
+      process_apriori
+      process_arima_forecast
+      process_basket
+      process_directed_graph
+      process_directed_graph2
+      process_ecogenetic_network
+      save_pulse_responder_dynamic
+      update_client_pulse_responder
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,189 @@
+prediction.endpoints package
+============================
+
+Submodules
+----------
+
+prediction.endpoints.algorithm\_client\_pulse module
+----------------------------------------------------
+
+.. automodule:: prediction.endpoints.algorithm_client_pulse
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.auth\_controller module
+--------------------------------------------
+
+.. automodule:: prediction.endpoints.auth_controller
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.data\_ingestion\_engine module
+---------------------------------------------------
+
+.. automodule:: prediction.endpoints.data_ingestion_engine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.data\_management\_engine module
+----------------------------------------------------
+
+.. automodule:: prediction.endpoints.data_management_engine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.data\_munging\_engine module
+-------------------------------------------------
+
+.. automodule:: prediction.endpoints.data_munging_engine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.ecosystem\_generation\_engine module
+---------------------------------------------------------
+
+.. automodule:: prediction.endpoints.ecosystem_generation_engine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.ecosystem\_home module
+-------------------------------------------
+
+.. automodule:: prediction.endpoints.ecosystem_home
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.ecosystem\_main module
+-------------------------------------------
+
+.. automodule:: prediction.endpoints.ecosystem_main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.ecosystem\_user\_profiles module
+-----------------------------------------------------
+
+.. automodule:: prediction.endpoints.ecosystem_user_profiles
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.interaction module
+---------------------------------------
+
+.. automodule:: prediction.endpoints.interaction
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.prediction\_engine module
+----------------------------------------------
+
+.. automodule:: prediction.endpoints.prediction_engine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.settings\_controller module
+------------------------------------------------
+
+.. automodule:: prediction.endpoints.settings_controller
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.transaction\_categorization module
+-------------------------------------------------------
+
+.. automodule:: prediction.endpoints.transaction_categorization
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.user\_controller module
+--------------------------------------------
+
+.. automodule:: prediction.endpoints.user_controller
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.utilities module
+-------------------------------------
+
+.. automodule:: prediction.endpoints.utilities
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_aws module
+---------------------------------------
+
+.. automodule:: prediction.endpoints.worker_aws
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_file\_service module
+-------------------------------------------------
+
+.. automodule:: prediction.endpoints.worker_file_service
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_google module
+------------------------------------------
+
+.. automodule:: prediction.endpoints.worker_google
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_h2o module
+---------------------------------------
+
+.. automodule:: prediction.endpoints.worker_h2o
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_microsoft module
+---------------------------------------------
+
+.. automodule:: prediction.endpoints.worker_microsoft
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_open\_ai module
+--------------------------------------------
+
+.. automodule:: prediction.endpoints.worker_open_ai
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+prediction.endpoints.worker\_uber module
+----------------------------------------
+
+.. automodule:: prediction.endpoints.worker_uber
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: prediction.endpoints
+   :members:
+   :undoc-members:
+   :show-inheritance:

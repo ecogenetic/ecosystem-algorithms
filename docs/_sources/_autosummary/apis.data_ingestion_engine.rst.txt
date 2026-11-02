@@ -1,0 +1,38 @@
+apis.data\_ingestion\_engine
+============================
+
+.. automodule:: apis.data_ingestion_engine
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_metadocumemnts
+      delete_ingestmeta
+      get_databasesmeta
+      get_databasetablecolumnmeta
+      get_databasetablecolumnsmeta
+      get_databasetablesmeta
+      get_ingestmeta
+      get_ingestmetas
+      save_databasetablecolumn
+      save_ingestion
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

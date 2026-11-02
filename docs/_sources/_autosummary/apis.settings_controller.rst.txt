@@ -1,0 +1,29 @@
+apis.settings\_controller
+=========================
+
+.. automodule:: apis.settings_controller
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      current
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

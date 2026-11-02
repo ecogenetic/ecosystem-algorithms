@@ -1,0 +1,49 @@
+apis.worker\_h2o
+================
+
+.. automodule:: apis.worker_h2o
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      cancel_job
+      change_to_enum
+      delete_frame
+      download_model
+      download_model_mojo
+      export_frame
+      featurestore_to_frame
+      file_to_frame
+      generate_model_detail
+      get_frame
+      get_frame_column_summary
+      get_frame_columns
+      get_model_stats
+      get_train_model
+      import_sql_table
+      model_grids
+      prediction_frames
+      prediction_jobs
+      prediction_models
+      split_frame
+      train_model
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,42 @@
+apis.worker\_file\_service
+==========================
+
+.. automodule:: apis.worker_file_service
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      convert_csv_from_to
+      convert_remove_non_printables
+      convert_text_file_from_to
+      copy_file
+      delete_file
+      download
+      file_delete
+      get_file
+      get_file_tail
+      get_files
+      get_property
+      process_push
+      update_properties
+      upload_file
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

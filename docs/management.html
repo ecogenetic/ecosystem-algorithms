@@ -1,0 +1,438 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Management - Ecosystem Notebooks 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Ecosystem Notebooks 0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Ecosystem Notebooks 0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="prediction.html">prediction package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of prediction package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="prediction.apis.html">prediction.apis package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prediction.endpoints.html">prediction.endpoints package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="prediction.apis.html">prediction.apis package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="runtime.html">runtime package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of runtime package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="runtime.apis.html">runtime.apis package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.endpoints.html">runtime.endpoints package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.apis.html">runtime.apis package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">prediction</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of prediction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="prediction.html">prediction package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of prediction package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="prediction.apis.html">prediction.apis package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="prediction.endpoints.html">prediction.endpoints package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="management">
+<h1>Management<a class="headerlink" href="#management" title="Link to this heading">#</a></h1>
+<p>To retrieve a list of random ingredients,
+you can use the <code class="docutils literal notranslate"><span class="pre">management.create_deployment()</span></code> function:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="management.online_learning_ecosystem_rewards_setup_feature_store">
+<span class="sig-prename descclassname"><span class="pre">management.</span></span><span class="sig-name descname"><span class="pre">online_learning_ecosystem_rewards_setup_feature_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offer_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offer_collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offer_name_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_feature_store_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_feature_store_collection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#management.online_learning_ecosystem_rewards_setup_feature_store" title="Link to this definition">#</a></dt>
+<dd><p>Add contextual variables to a setup feature store for the ecosystem rewards dynamic recommender using a collection containing the relevant offers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth</strong> – Token for accessing the ecosystem-server. Created using the jwt_access package.</p></li>
+<li><p><strong>offer_db</strong> – The database containing the offers.</p></li>
+<li><p><strong>offer_collection</strong> – The collection containing the offers.</p></li>
+<li><p><strong>offer_name_column</strong> – The column in the collection containing the offer names.</p></li>
+<li><p><strong>contextual_variables</strong> – A dictionary containing the contextual variables names as keys. Each value in the dictionary should be a list containing the possible values of the contextual variables.</p></li>
+<li><p><strong>setup_feature_store_db</strong> – The database to store the setup feature store in.</p></li>
+<li><p><strong>setup_feature_store_collection</strong> – The collection to store the setup feature store in.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="management.create_online_learning">
+<span class="sig-prename descclassname"><span class="pre">management.</span></span><span class="sig-name descname"><span class="pre">create_online_learning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_store_collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_store_database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_store_database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_store_collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_offer_key</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">score_connection</span> <span class="pre">=</span> <span class="pre">&quot;http://ecosystem-runtime:8091&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_database</span> <span class="pre">=</span> <span class="pre">&quot;ecosystem_meta&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_collection</span> <span class="pre">=</span> <span class="pre">&quot;dynamic_engagement&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span> <span class="pre">=</span> <span class="pre">&quot;ecosystem_rewards&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_store_connection</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span> <span class="pre">=</span> <span class="pre">&quot;false&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_store_connection</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_contextual_variable_one_from_data_source</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_contextual_variable_one_lookup</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_contextual_variable_one_name</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_contextual_variable_two_from_data_source</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_contextual_variable_two_name</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_contextual_variable_two_lookup</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_tracking_key</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contextual_variables_take_up</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_database_out</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_collection_out</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_threads</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_collection</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_userid</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_contextual_variables</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_number_of_offers</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_database</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_pulse_responder_list</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_find</span> <span class="pre">=</span> <span class="pre">&quot;{}&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_options</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_campaign</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_execution_type</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_calendar</span> <span class="pre">=</span> <span class="pre">&quot;None&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_test_options_across_segment</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_processing_count</span> <span class="pre">=</span> <span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_discount_factor</span> <span class="pre">=</span> <span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_batch</span> <span class="pre">=</span> <span class="pre">&quot;false&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_prior_fail_reward</span> <span class="pre">=</span> <span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_cross_segment_epsilon</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_success_reward</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_interaction_count</span> <span class="pre">=</span> <span class="pre">&quot;0&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_epsilon</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_prior_success_reward</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_fail_reward</span> <span class="pre">=</span> <span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_max_reward</span> <span class="pre">=</span> <span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_cache_duration</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_processing_window</span> <span class="pre">=</span> <span class="pre">86400000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_random_action</span> <span class="pre">=</span> <span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_decay_gamma</span> <span class="pre">=</span> <span class="pre">&quot;1&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomisation_learning_rate</span> <span class="pre">=</span> <span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#management.create_online_learning" title="Link to this definition">#</a></dt>
+<dd><p>Create a new online learning configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth</strong> – Token for accessing the ecosystem-server. Created using the jwt_access package.</p></li>
+<li><p><strong>name</strong> – The name of the online learning configuration.</p></li>
+<li><p><strong>description</strong> – The description of the online learning configuration.</p></li>
+<li><p><strong>feature_store_collection</strong> – The collection containing the setup feature store.</p></li>
+<li><p><strong>feature_store_database</strong> – The database containing the setup feature store.</p></li>
+<li><p><strong>options_store_database</strong> – The database containing the options store.</p></li>
+<li><p><strong>options_store_collection</strong> – The collection containing the options store.</p></li>
+<li><p><strong>contextual_variables_offer_key</strong> – The key in the setup feature store collection that contains the offer.</p></li>
+<li><p><strong>score_connection</strong> – Used when batch processing is enabled. The connection string to the runtime engine to use for batch processing.</p></li>
+<li><p><strong>score_database</strong> – The database where the online learning configuration is stored</p></li>
+<li><p><strong>score_collection</strong> – The collection where the online learning configuration is stored</p></li>
+<li><p><strong>algorithm</strong> – The algorithm to use for the online learning configuration. Currently only “ecosystem_rewards” is supported.</p></li>
+<li><p><strong>options_store_connection</strong> – The connection string to the options store.</p></li>
+<li><p><strong>batch</strong> – A boolean indicating whether batch processing should be enabled.</p></li>
+<li><p><strong>feature_store_connection</strong> – The connection string to the setup feature store.</p></li>
+<li><p><strong>contextual_variables_contextual_variable_one_from_data_source</strong> – A boolean indicating whether the first contextual variable should be read from the deployment customer lookup.</p></li>
+<li><p><strong>contextual_variables_contextual_variable_one_name</strong> – The field in the setup feature store to be used for the first contextual variable.</p></li>
+<li><p><strong>contextual_variables_contextual_variable_one_lookup</strong> – The key in the deployment customer lookup that contains the first contextual variable.</p></li>
+<li><p><strong>contextual_variables_contextual_variable_two_name</strong> – The field in the setup feature store to be used for the second contextual variable.</p></li>
+<li><p><strong>contextual_variables_contextual_variable_two_lookup</strong> – The key in the deployment customer lookup that contains the second contextual variable.</p></li>
+<li><p><strong>contextual_variables_contextual_variable_two_from_data_source</strong> – A boolean indicating whether the second contextual variable should be read from the deployment customer lookup.</p></li>
+<li><p><strong>contextual_variables_tracking_key</strong> – The field in the setup feature store to be used for the tracking key.</p></li>
+<li><p><strong>contextual_variables_take_up</strong> – The field in the setup feature store to be used for the take up.</p></li>
+<li><p><strong>batch_database_out</strong> – The database to store the batch output in.</p></li>
+<li><p><strong>batch_collection_out</strong> – The collection to store the batch output in.</p></li>
+<li><p><strong>batch_threads</strong> – The number of threads to use for batch processing.</p></li>
+<li><p><strong>batch_collection</strong> – The collection to read the batch data from.</p></li>
+<li><p><strong>batch_userid</strong> – The user to be passed to the batch runtime.</p></li>
+<li><p><strong>batch_contextual_variables</strong> – The contextual variables to be used in the batch processing.</p></li>
+<li><p><strong>batch_number_of_offers</strong> – The number of offers to be used in the batch processing.</p></li>
+<li><p><strong>batch_database</strong> – The database to read the batch data from.</p></li>
+<li><p><strong>batch_pulse_responder_list</strong> – The list of runtimes to be used in the batch processing.</p></li>
+<li><p><strong>batch_find</strong> – The query to be used to find the batch data.</p></li>
+<li><p><strong>batch_options</strong> – The options to be used in the batch processing.</p></li>
+<li><p><strong>batch_campaign</strong> – The campaign to be used in the batch processing.</p></li>
+<li><p><strong>batch_execution_type</strong> – The execution type to be used in the batch processing. Allowed values are “internal” and “external”.</p></li>
+<li><p><strong>randomisation_calendar</strong> – The calendar to be used.</p></li>
+<li><p><strong>randomisation_test_options_across_segment</strong> – Boolean variable indicating whether offers should be tested outside of their allowed contextual variable segments.</p></li>
+<li><p><strong>randomisation_processing_count</strong> – The number of interactions to be processed.</p></li>
+<li><p><strong>randomisation_discount_factor</strong> – The discount factor to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_batch</strong> – Boolean variable indicating whether batch processing should be enabled.</p></li>
+<li><p><strong>randomisation_prior_fail_reward</strong> – The prior fail reward to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_cross_segment_epsilon</strong> – The cross segment epsilon to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_success_reward</strong> – The success reward to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_interaction_count</strong> – The number of interactions to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_epsilon</strong> – The epsilon to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_prior_success_reward</strong> – The prior success reward to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_fail_reward</strong> – The fail reward to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_max_reward</strong> – The maximum reward to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_cache_duration</strong> – The cache duration to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_processing_window</strong> – The processing window to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_random_action</strong> – The random action to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_decay_gamma</strong> – The decay gamma to be used in the randomisation.</p></li>
+<li><p><strong>randomisation_learning_rate</strong> – The learning rate to be used in the randomisation.</p></li>
+<li><p><strong>replace</strong> – A boolean indicating whether the online learning configuration should be replaced if it already exists.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The UUID identifier for the online learning configuration which should be linked to the deployment for the project.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="management.create_project">
+<span class="sig-prename descclassname"><span class="pre">management.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">purpose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_science_lead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_lead</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#management.create_project" title="Link to this definition">#</a></dt>
+<dd><p>Create a new project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth</strong> – Token for accessing the ecosystem-server. Created using the jwt_access package.</p></li>
+<li><p><strong>project_id</strong> – The name of the project to be created.</p></li>
+<li><p><strong>project_description</strong> – Description of the project.</p></li>
+<li><p><strong>project_type</strong> – The type of the project.</p></li>
+<li><p><strong>purpose</strong> – The purpose of the project.</p></li>
+<li><p><strong>project_start_date</strong> – The start date of the project.</p></li>
+<li><p><strong>project_end_date</strong> – The end date of the project.</p></li>
+<li><p><strong>data_science_lead</strong> – The data science lead of the project.</p></li>
+<li><p><strong>data_lead</strong> – The data lead of the project.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="management.create_deployment">
+<span class="sig-prename descclassname"><span class="pre">management.</span></span><span class="sig-name descname"><span class="pre">create_deployment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deployment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_pre_score_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_post_score_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_status</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">budget_tracker=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complexity=&quot;Low&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">performance_expectation=&quot;High&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_configuration=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_offer_matrix=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_armed_bandit=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_selector=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_selector=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging_collection_response=&quot;ecosystemruntime_response&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging_collection=&quot;ecosystemruntime&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging_database=&quot;logging&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_connect=&quot;mongodb://ecosystem_user:EcoEco321&#64;ecosystem-server:54445/?authSource=admin&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_server_port=&quot;ecosystem-server:54445&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_ecosystem_password=&quot;EcoEco321&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_ecosystem_user=&quot;ecosystem_user&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoring_engine_path_dev=&quot;http://ecosystem-runtime:8091&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoring_engine_path_test=&quot;http://ecosystem-runtime2:8091&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoring_engine_path_prod=&quot;http://ecosystem-runtime3:8091&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models_path=&quot;/data/deployed/&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path=&quot;/data/&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_server_path=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">git_repo_path_branch=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_path=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">git_repo_path=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_access=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corpora=&quot;default&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensive_validation=False</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#management.create_deployment" title="Link to this definition">#</a></dt>
+<dd><p>Create or update a deployment linked to an existing project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth</strong> – Token for accessing the ecosystem-server. Created using the jwt_access package.</p></li>
+<li><p><strong>project_id</strong> – The name of the project to add the deployment step to.</p></li>
+<li><p><strong>deployment_id</strong> – The name of the deployment step that is to be created.</p></li>
+<li><p><strong>description</strong> – Description of the deployment step</p></li>
+<li><p><strong>version</strong> – The version of the deployment step being created. The combination of version and deployment_id cannot already exists within the deployment, i.e. you cannot overwrite an existing deployment</p></li>
+<li><p><strong>project_status</strong> – Specifies the environment to which the deployment should be sent when it is pushed. The allowed values are experiment, validate, production, disable.</p></li>
+<li><p><strong>plugin_pre_score_class</strong> – The name of the pre score logic class to be used in the runtime. Only default classes can be selected here. To create custom classes please use the ecosystem-runtime-locabuild repo or edit the classes in the workbench. The allowed values are PrePredictCustomer.java</p></li>
+<li><p><strong>plugin_post_score_class</strong> – The name of the post score logic class to be used in the runtime. Only default classes can be selected here. To create custom classes please use the ecosystem-runtime-locabuild repo or edit the classes in the workbench. The allowed values are PostScoreBasic.java, PostScoreRecommender.java, PlatformDynamicEngagement.java, PostScoreRecommenderOffers.java, PostScoreRecommenderMulti.java and PostScoreNetwork.java</p></li>
+<li><p><strong>budget_tracker</strong> – A dictionary of parameters required for managing the budget tracker functionality TODO &lt;Need input from Jay on how this actually works&gt;</p></li>
+<li><p><strong>complexity</strong> – Indicate the expected complexity of the deployment, allowed values are Low, Medium and High</p></li>
+<li><p><strong>performance_expectation</strong> – Indicate the expected performance of the deployment, allowed values are Low, Medium and High</p></li>
+<li><p><strong>model_configuration</strong> – A dictionary of the parameters specifying the models used in the project. The key item in the dictionary is models_load - a comma separated string of the names of the models to be used in the deployment. model_note and model_outline fields can also be added for tracking purposes</p></li>
+<li><p><strong>setup_offer_matrix</strong> – A dictionary of parameters specifying the location of the offer matrix - a dataset containing information about the offers that could be recommended. The dictionary must contain a datasource, database, collection and offer_lookup_id. Datasource can be one of mongodb, cassandra or presto. Database and collection specify the location of the offer_matrix in the datasource. Offer_lookup_id is the name of the column which contains the unique identifier for the offers - allowed values are offer, offer_name and offer_id</p></li>
+<li><p><strong>multi_armed_bandit</strong> – A dictionary specifying the dynamic recommender behavior of the deployment. The dictionary must contain epsilon, duration and pulse_responder_id. epsilon is a portion of interactions that are presented with random results and should be a number between 0 and 1. duration is the period for which recommendations are cached in milliseconds TODO &lt;Check this with Jay&gt; . pulse_responder_id is the uuid of a Dynamic Interaction configuration, if not Dynamic Interaction configuration is being linked set this to “”</p></li>
+<li><p><strong>whitelist</strong> – A dictionary of parameters specifying the location of the whitelist - a dataset of customers and the list of offers for which they are eligible. The data set should contain two fields; customer_key and white_list. customer_key is the unique customer identifier and white_list is a list of offer_names for which the customer is eligible. The dictionary must contain a datasource, database and collection. Datasource can be one of mongodb, cassandra or presto. Database and collection specify the location of the whitelist in the datasource.</p></li>
+<li><p><strong>model_selector</strong> – TODO &lt;Check purpose of lookup field with Jay&gt; A dictionary of parameters specifying the behavior of the model selector functionality. The model selector allows different models to be used based on the value of a field in the specified data set. The dictionary must contain datasource, database, table_collection, selector_column, selector and lookup.  Datasource can be one of mongodb, cassandra or presto. Database and collection specify the location of the model_selector dataset in the datasource. The selector_column is the name of the column in the dataset which is used to select between the different models. Lookup is a dictionary with the structure {“key”:”customer”,”value”:123 or ‘123’,”fields’’:”selector_column”}, where key is the field containing the unique customer identifier, value specified the type of the identifier as either a string (‘123’) or a number (123) and fields is the name of the selector column. Selector is the rule set used to choose models based on the values in the selector column. Selector is a dictionary with the format {“key_value_a”:[0],”key_value_b”:[1], …} where the keys are the values of the fields in the selector column used to choose different models and the values are the indices of the model to be used, with the order as specified in the model_configuration argument</p></li>
+<li><p><strong>pattern_selector</strong> – TODO &lt;Check pattern selector behavior with Jay&gt; A dictionary containing the parameters defining the behavior of the pattern selector. The dictionary contains two parameters; pattern and duration. pattern is a comma separated list of numbers which specifies the intervals at which customers are able to receive updated offers. duration defines the time intervals specified in the pattern parameter</p></li>
+<li><p><strong>parameter_access</strong> – A dictionary specifying the location from which customer data should be looked up. parameter_access should contain lookup, datasource, database, table_collection, lookup, lookup_defaults, fields, lookup_fields, create_virtual_variables and virtual_variables. lookup is a dictionary with the structure {“key”:”customer”,”value”:123 or ‘123’}, where key is the field containing the unique customer identifier, value specified the type of the identifier as either a string (‘123’) or a number (123). datasource can be one of mongodb, cassandra or presto. database and table_collection specify the location of the customer lookup in the datasource. fields is a comma separated list of the fields that should be read from the customer lookup. lookup_defaults are the default values to be used if the customer lookup fails, set to “” to not specify defaults. lookup_fields is the fields parameter in a list form ordered alphabetically create_virtual_variable is True if virtual variables are defined and False if not, virtual variables are defined by segmenting or combining fields from the customer lookup for us in the deployment. virtual_variables is a dictionary defining the virtual variables, which has the following form.</p></li>
+<li><p><strong>corpora</strong> – A list of additional datasets that are read by the deployment. corpora is a list of dictionaries where each dictionary gives the details of a data set. The dictionaries must have the following keys; database (mongodb or cassandra), db (the database containing the corpora), table (the collection containing the corpora), name (the name of the corpora used in the deployment) and type (static, dynamic or experiment). The dictionary can optionally contain a key field which, if present, is used as a lookup for each row or the corpora, where the default is to have the rows loaded as an array. The type field in the dictionary specifies how the corpora is loaded. A static type is loaded at deployment, a dynamic type is loaded at each prediction and experiment is a special type used for configuring network runtimes</p></li>
+<li><p><strong>logging_database</strong> – The mongo database where the deployment logs will be stored</p></li>
+<li><p><strong>logging_collection</strong> – The mongo collection where the predictions presented will be stored</p></li>
+<li><p><strong>logging_collection_response</strong> – The mongo collection where the customer responses to the predictions will be stored</p></li>
+<li><p><strong>mongo_connect</strong> – The connection string to the mongo database used by the deployment</p></li>
+<li><p><strong>mongo_server_port</strong> – The server and port in the mongo connection string</p></li>
+<li><p><strong>mongo_ecosystem_password</strong> – The password in the mongo connection string</p></li>
+<li><p><strong>mongo_ecosystem_user</strong> – The username in the mongo connection string</p></li>
+<li><p><strong>scoring_engine_path_dev</strong> – The url of the container to send the configuration to when the project status is experiment</p></li>
+<li><p><strong>scoring_engine_path_test</strong> – The url of the container to send the configuration to when the project status is validate</p></li>
+<li><p><strong>scoring_engine_path_prod</strong> – The url of the container to send the configuration to when the project status is production</p></li>
+<li><p><strong>models_path</strong> – The folder in the container where the models will be stored</p></li>
+<li><p><strong>data_path</strong> – The folder in the container where the generic data used by the container will be stored</p></li>
+<li><p><strong>build_server_path</strong> – The url of the build server to be used if customer logic is built into the container and a new container needs to be built containing said logic</p></li>
+<li><p><strong>git_repo_path</strong> – The git repo to store the customer logic</p></li>
+<li><p><strong>git_repo_path_branch</strong> – The branch to use for the repo specified in git_repo_path_branch</p></li>
+<li><p><strong>download_path</strong> – The url on Docker Hub where the built container will be pushed</p></li>
+<li><p><strong>extensive_validation</strong> – Indicator of whether potentially time consuming validation should be run before the deployment is created. This additional validation is checking whether the fields in the model_parameter are present in the linked collection and vice-versa</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The deployment configuration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, ecosystem.Ai
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Management</a><ul>
+<li><a class="reference internal" href="#management.online_learning_ecosystem_rewards_setup_feature_store"><code class="docutils literal notranslate"><span class="pre">management.online_learning_ecosystem_rewards_setup_feature_store()</span></code></a></li>
+<li><a class="reference internal" href="#management.create_online_learning"><code class="docutils literal notranslate"><span class="pre">management.create_online_learning()</span></code></a></li>
+<li><a class="reference internal" href="#management.create_project"><code class="docutils literal notranslate"><span class="pre">management.create_project()</span></code></a></li>
+<li><a class="reference internal" href="#management.create_deployment"><code class="docutils literal notranslate"><span class="pre">management.create_deployment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

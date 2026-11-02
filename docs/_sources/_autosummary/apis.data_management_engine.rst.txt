@@ -1,0 +1,60 @@
+apis.data\_management\_engine
+=============================
+
+.. automodule:: apis.data_management_engine
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_document_collection
+      add_document_database
+      add_documents
+      create_document_collection_index
+      create_presto_sql
+      csv_file_to_json
+      csv_import
+      csv_import2
+      delete_all_documents
+      delete_documents
+      drop_document_collection
+      drop_document_collection_index
+      drop_document_database
+      dump_document_database
+      execute_mongo_db_script
+      export_documents
+      get_data
+      get_data_aggregate
+      get_data_sort
+      get_document_collection_indexes
+      get_document_db_aggregate2
+      get_document_db_collection_stats
+      get_document_db_collections
+      get_document_db_find_labels
+      get_document_db_list
+      get_document_labels
+      get_presto_sql
+      import_documents
+      post_mongo_db_aggregate_pipeline
+      rename_collection
+      restore_document_database
+      update_key_name
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
