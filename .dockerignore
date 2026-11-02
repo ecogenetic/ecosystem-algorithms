@@ -1,0 +1,39 @@
+# Version control and local Docker config
+.git
+.gitignore
+.docker
+
+# IDE and editor
+.idea
+.vscode
+
+# Secrets and environment
+.env
+.env.*
+*.pem
+
+# Python bytecode and packaging artifacts
+__pycache__
+**/__pycache__
+*.py[cod]
+*$py.class
+build
+dist
+*.egg-info
+.eggs
+
+# Virtual environments
+venv
+.venv
+env
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Documentation build output (regenerate in CI or locally)
+docs
+sphinx_documentation/build
+
+# Misc local temp
+tmp
